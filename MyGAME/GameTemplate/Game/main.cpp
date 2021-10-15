@@ -49,44 +49,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//オブジェクトのドローを行う
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
-		//カメラの移動
-		if (g_pad[0]->IsPress(enButtonLeft)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.y -= 20.0f;
-			g_camera3D->SetPosition(a);			
-		}
-		if (g_pad[0]->IsPress(enButtonRight)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.y += 20.0f;
-			g_camera3D->SetPosition(a);
-		}
-		if (g_pad[0]->IsPress(enButtonUp)) {
-			Vector3 a = g_camera3D->GetPosition();
-			Vector3 b = g_camera3D->GetTarget();
-			a.x -= 20.0f;
-			b.x -= 20.0f;
-			g_camera3D->SetPosition(a);
-			g_camera3D->SetTarget(b);
-		}
-		if (g_pad[0]->IsPress(enButtonDown)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.x += 20.0f;
-			Vector3 b = g_camera3D->GetTarget();
-			b.x += 20.0f;
-			g_camera3D->SetPosition(a);
-			g_camera3D->SetTarget(b);
-		}
-		if (g_pad[0]->IsPress(enButtonX)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.z -= 20.0f;
-			g_camera3D->SetPosition(a);
-		}
-		if (g_pad[0]->IsPress(enButtonY)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.z += 20.0f;
-			g_camera3D->SetPosition(a);
-		}
-
 		//スピンロックを行う。
 		int restTime = 0;
 		do {

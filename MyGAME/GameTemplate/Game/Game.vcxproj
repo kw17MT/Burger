@@ -315,7 +315,6 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Guzai.cpp" />
-    <ClCompile Include="GuzaiGrab.cpp" />
     <ClCompile Include="GuzaiManager.cpp" />
     <ClCompile Include="GuzaiOkiba.cpp" />
     <ClCompile Include="GuzaiScale.cpp" />
@@ -448,7 +447,6 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Guzai.h" />
-    <ClInclude Include="GuzaiGrab.h" />
     <ClInclude Include="GuzaiManager.h" />
     <ClInclude Include="GuzaiOkiba.h" />
     <ClInclude Include="GuzaiScale.h" />

@@ -28,6 +28,8 @@ private:
 	bool m_targetingState = false;									//今、具材をターゲットしているか。1個以上ターゲティングしないように。
 	bool m_moveStop = false;										//停止フラグ１
 
+	AnimationClip m_animationClip[1];
+
 public:
 	Player() {};
 	~Player();

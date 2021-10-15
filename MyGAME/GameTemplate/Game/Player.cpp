@@ -228,7 +228,7 @@ void Player::Update()
 	RestrictMove();
 
 	//移動を制限
-	//RestrictPos();
+	RestrictPos();
 
 	//歩いたときにエフェクトを出す
 	PopWalkingEffect();

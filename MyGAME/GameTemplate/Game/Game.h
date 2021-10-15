@@ -73,6 +73,4 @@ private:
 	Level* m_level = nullptr;
 	CountDown* m_countDown = nullptr;								//カウントダウン
 	Conveyor* m_conveyor = nullptr;
-
-	Floor* m_depthTest = nullptr;									//デプスシャドウ確認用
 };
