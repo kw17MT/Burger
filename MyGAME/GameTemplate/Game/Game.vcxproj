@@ -300,7 +300,6 @@
     <ClCompile Include="CountDown.cpp" />
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="CycleDirection.cpp" />
-    <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
     <ClCompile Include="DishManager.cpp" />
@@ -315,6 +314,7 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="GuzaiGrab.cpp" />
     <ClCompile Include="GuzaiManager.cpp" />
     <ClCompile Include="GuzaiOkiba.cpp" />
     <ClCompile Include="GuzaiScale.cpp" />
@@ -344,7 +344,6 @@
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
-    <ClCompile Include="SSR.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -432,7 +431,6 @@
     <ClInclude Include="CountDown.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="CycleDirection.h" />
-    <ClInclude Include="DepthInView.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
     <ClInclude Include="DishManager.h" />
@@ -447,6 +445,7 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="GuzaiGrab.h" />
     <ClInclude Include="GuzaiManager.h" />
     <ClInclude Include="GuzaiOkiba.h" />
     <ClInclude Include="GuzaiScale.h" />
@@ -475,7 +474,6 @@
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />
     <ClInclude Include="SpriteRender.h" />
-    <ClInclude Include="SSR.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="system\system.h" />

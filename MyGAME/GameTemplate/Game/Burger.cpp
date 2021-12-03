@@ -27,6 +27,7 @@ namespace {
 Burger::~Burger()
 {
 	DeleteGO(m_skinModelRender);
+	DeleteGO(m_oilEffect);
 }
 
 bool Burger::Start()
@@ -34,7 +35,7 @@ bool Burger::Start()
 	//モデルの初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画用モデルの初期化
-	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitForRecieveShadow("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
 	//シャドウキャスター用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
 	//モデルの拡大
@@ -72,6 +73,12 @@ bool Burger::Start()
 	m_effect->SetScale(EFFECT_SCALE);
 	m_effect->SetPosition(m_position);
 
+	m_oilEffect = NewGO<Effect>(0);
+	m_oilEffect->Init(u"Assets/effect/meatOil2.efk");
+	m_oilEffect->SetScale({ 25.0f,25.0f,25.0f });
+	m_oilEffect->Update();
+
+	//フォワードでブルーム適用するか
 	m_skinModelRender->SetApplyBlur(true);
 
 	return true;
@@ -88,11 +95,14 @@ void Burger::GrabBurger()
 	plSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
 
 	//プレイヤーとハンバーガーの距離を測る
-	Vector3 playerToBurger_vec = plPos - m_position;
-	float playerToBurger = playerToBurger_vec.Length();
+	Vector3 playerToBurgerVec = plPos - m_position;
+	float playerToBurgerDistance = playerToBurgerVec.Length();
 
 	//Aボタンを押してプレイヤーとバーガーの距離が一定以下なら、バーガーを持つ準備をする。
-	if (g_pad[m_burgerNo]->IsTrigger(enButtonA) && playerToBurger < DISTANCE_BETWEEN_PLAYER_TO_BURGER && m_player->GetPlayerState() != enHaveBurger) {
+	if (g_pad[m_burgerNo]->IsTrigger(enButtonA) 
+		&& playerToBurgerDistance < DISTANCE_BETWEEN_PLAYER_TO_BURGER 
+		&& m_player->GetPlayerState() != enHaveBurger) 
+	{
 		//プレイヤーの状態を、ハンバーガー所持状態にする
 		m_player->SetPlayerState(enHaveBurger);
 		//音を鳴らす
@@ -143,14 +153,13 @@ void Burger::SetOnTrashCan()
 			se->Init(L"Assets/sound/dumping.wav", false);
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
-			//
-			//m_burgerExist = false;
+
 			m_player->SetPlayerState(enNothing);
 			m_decrementTime = DEFAULT_DECREMENT_TIME;
+			//ハンバーガーを消したため構成している具材の記録を消す。
 			ClearNo();
-
+			//ゴミ箱にリアクションをさせる。
 			m_trashCan->ChangeMovingState(true);
-
 			//ハンバーガーを消す
 			DeleteGO(this);
 		}
@@ -165,6 +174,22 @@ void Burger::Update()
 	GrabBurger();
 	
 	SetOnTrashCan();
+
+	m_dropOilDelay += GameTime().GetFrameDeltaTime();
+	if (m_dropOilDelay >= 3.0f)
+	{
+		Quaternion qRot;
+		qRot.SetRotation({0.0f,0.0f,1.0f}, {0.0f,1.0f,0.0f});
+		Vector3 effectPos = m_position;
+		effectPos.y -= 50.0f;
+		m_oilEffect->SetPosition(effectPos);
+		m_oilEffect->SetRotation(qRot);
+		m_oilEffect->Play();
+
+		m_dropOilDelay = 0.0f;
+	}
+
+	m_oilEffect->Update();
 
 	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_burgerScale);

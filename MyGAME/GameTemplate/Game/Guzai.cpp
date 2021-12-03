@@ -16,7 +16,6 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "GuzaiGrab.h"
 #include "GuzaiScale.h"
 
 namespace
@@ -36,7 +35,7 @@ namespace
 	const int GUZAIOKIBA_MAX_NUM = 8;
 	const float MOVESPEED = 130.0f;
 	const float AJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
-	const float AJUST_HEIGHT = 50.0f;
+	const float AJUST_HEIGHT = 40.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_GUZAI = 100.0f;
 	const float SE_GRAB_VOLUME = 0.9f;
 	const float SE_PUT_VOLUME = 1.0f;
@@ -90,23 +89,17 @@ bool Guzai::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画用モデルの初期化
 	m_skinModelRender->InitForRecieveShadow("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position);
-	//m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
 	//影生成用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position);
 	//乱数を用いて出現させるモデルの決定
 	std::random_device rnd;
 	std::mt19937 mt(rnd());
 	std::uniform_int_distribution<int> rand(GUZAI_TYPE_MIN_NUM, GUZAI_TYPE_MAX_NUM);
-
 	m_typeNo = rand(mt);
-	m_isTargeted = false;
-	m_scale = Vector3::One;
-
 	//ヘッダに定義してあるファイルパス集を使用して具材のモデルを変更
 	m_skinModelRender->ChangeModel(m_normalFilePaths[m_typeNo]);
 	//モデルに新しいファイルパスを適用する。
 	m_skinModelRender->SetNewModel();
-
 	//自身がトマトとオニオン以外の時、調理される必要はないため
 	if (m_typeNo != enTomato && m_typeNo != enOnion) {
 		//調理されたフラグをすでに立てておく。

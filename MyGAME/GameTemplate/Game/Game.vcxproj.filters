@@ -324,9 +324,6 @@
     <ClCompile Include="Bloom.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="DepthInView.cpp">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="FXAA.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
@@ -336,9 +333,7 @@
     <ClCompile Include="ForwardBloom.cpp">
       <Filter>AboutRendering\ForwardRendering</Filter>
     </ClCompile>
-    <ClCompile Include="SSR.cpp">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClCompile>
+    <ClCompile Include="GuzaiGrab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -690,9 +685,6 @@
     <ClInclude Include="Bloom.h">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="DepthInView.h">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="FXAA.h">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
@@ -702,9 +694,7 @@
     <ClInclude Include="ForwardBloom.h">
       <Filter>AboutRendering\ForwardRendering</Filter>
     </ClInclude>
-    <ClInclude Include="SSR.h">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClInclude>
+    <ClInclude Include="GuzaiGrab.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

@@ -23,7 +23,7 @@ private:
 	int m_deleteTimer = 0;									//ボタン長押しでバーガーを消すようにするため。
 	bool m_isSetOnTrashCan = false;							//ゴミ箱にセットされたか
 	bool m_putOnCounter = false;							//キッチンにいるかどうか、キッチンの上に位置を合わせるための変数
-
+	float m_dropOilDelay = 0.0f;
 public:
 	/**
 	 * @brief コストラクタ
@@ -96,4 +96,5 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;			//モデルのレンダー
 	Player* m_player = nullptr;								//対応するプレイヤー
 	TrashCan* m_trashCan = nullptr;							//対応するゴミ箱
+	Effect* m_oilEffect = nullptr;
 };

@@ -71,7 +71,7 @@ GameObjectManager::GameObjectManager()
 	defferedSpriteData.m_textures[2] = &specAndDepthMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
 	defferedSpriteData.m_fxFilePath = "Assets/shader/deffered/defferedSprite.fx";
-	defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
+	defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_None;
 	defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
 	defferedSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
 	defferedSprite.Init(defferedSpriteData);

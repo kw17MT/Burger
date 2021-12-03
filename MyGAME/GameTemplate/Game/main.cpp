@@ -29,6 +29,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	//プレイヤー、文字、オブジェクトなどの生成
 	NewGO<Title>(0, "title");
+
+
 		
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！

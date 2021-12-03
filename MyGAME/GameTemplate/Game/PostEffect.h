@@ -1,8 +1,6 @@
 #pragma once
 #include "Bloom.h"
 #include "FXAA.h"
-#include "DepthInView.h"
-#include "SSR.h"
 
 class PostEffect
 {
@@ -18,6 +16,4 @@ public:
 private:
 	Bloom m_bloom;
 	FXAA m_fxaa;
-	DepthInView m_depthInView;
-	SSR m_ssr;
 };
