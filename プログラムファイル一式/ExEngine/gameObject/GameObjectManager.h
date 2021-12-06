@@ -204,6 +204,15 @@ private:
 	ForwardBloom m_forwardBloom;
 	//ポストエフェクトをまとめたもの
 	PostEffect m_postEffect;
+
+	GaussianBlur shadowBlur;
+
+
+	//struct LightParam
+	//{
+	//	AllLight s_allLight = LightManager::GetInstance().GetLightData();
+	//	Vector3 s_lightPos;// = lightCamera.GetPosition();
+	//}m_LightParam;
 };
 
 

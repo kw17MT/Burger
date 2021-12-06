@@ -227,7 +227,7 @@ void Kitchen::TakePlayerLastestGuzai()
 			m_stackedGuzai[m_stack - 1]->SetisHadState(true);
 			//どちらのプレイヤーに持たれているか
 			m_stackedGuzai[m_stack - 1]->SetWhichPlayerGet(m_kitchenNo);
-			//一番上だった具材の番号を９にして何も入っていない状態にする。
+			//一番上だった具材の番号を9にして何も入っていない状態にする。
 			m_player->ClearSpecificGuzaiNo(m_stack - 1);
 			//この具材はキッチンに置かれているか
 			m_stackedGuzai[m_stack - 1]->SetPutState(false);

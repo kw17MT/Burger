@@ -11,6 +11,12 @@ cbuffer ModelCb : register(b0){
 	float4x4 mProj;
 };
 
+cbuffer ShadowCb : register(b1)
+{
+    float4x4 LVP;
+    float3 ligPos;
+}
+
 
 //頂点シェーダーへの入力。
 struct SVSIn{
@@ -23,6 +29,7 @@ struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
 	float3 normal		: NORMAL;		//法線。
 	float2 uv 			: TEXCOORD0;	//uv座標。
+    float2 depth : TEXCOORD1;
 };
 
 ///////////////////////////////////////////////////
@@ -33,6 +40,7 @@ Texture2D<float4> g_albedo : register(t0);		//アルベドマップ。
 Texture2D<float4> g_shadowMap : register(t10);	//シャドウマップ。
 sampler g_sampler : register(s0);				// サンプラステート。
 
+
 /// <summary>
 /// 頂点シェーダー。
 /// <summary>
@@ -41,12 +49,18 @@ SPSIn VSMain(SVSIn vsIn)
 	//シャドウマップ描画用の頂点シェーダーを実装。
 	SPSIn psIn;
 	psIn.pos = mul(mWorld, vsIn.pos);
+    float3 worldPos = psIn.pos;
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
 	psIn.uv = vsIn.uv;
 	psIn.normal = mul(mWorld, vsIn.normal);
+	
+    psIn.depth.x = length(worldPos - ligPos) / 2000.0f;
+    psIn.depth.y = psIn.depth.x * psIn.depth.x;
 	return psIn;
 }
+
+static const float INFINITY = 40.0f;
 
 /// <summary>
 /// シャドウマップ描画用のピクセルシェーダー。
@@ -54,5 +68,9 @@ SPSIn VSMain(SVSIn vsIn)
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
 	//デプスシャドウ描画用
-	return float4(psIn.pos.z, psIn.pos.z, psIn.pos.z, 1.0f);
+	return float4(psIn.depth.x, psIn.depth.y, 0.0f, 1.0f);
+	
+	//以下EVSM？
+    //float pos = exp(INFINITY * psIn.pos.z);
+   // return float4(pos, pos * pos, 0.0f, 1.0f);
 }

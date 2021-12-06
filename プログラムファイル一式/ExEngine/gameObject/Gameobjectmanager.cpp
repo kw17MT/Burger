@@ -42,10 +42,14 @@ GameObjectManager::GameObjectManager()
 		1,
 		1,
 		//DXGI_FORMAT_R8G8B8A8_UNORM,			//投影シャドウで使う
-		DXGI_FORMAT_R32_FLOAT,					//デプスシャドウで使う
+		DXGI_FORMAT_R32G32_FLOAT,					//デプスシャドウで使う
 		DXGI_FORMAT_D32_FLOAT,
 		clearColor
 	);
+
+
+	shadowBlur.Init(&shadowMap.GetRenderTargetTexture());
+
 	//ライトカメラの作成
 	lightCamera.SetPosition(0.0f, 1000.0f, -500.0f);
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
@@ -59,6 +63,7 @@ GameObjectManager::GameObjectManager()
 	*/
 	lightCamera.Update();
 
+	//m_LightParam.s_lightPos = lightCamera.GetPosition();
 
 	albedoMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
 	normalMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
@@ -69,7 +74,8 @@ GameObjectManager::GameObjectManager()
 	defferedSpriteData.m_textures[0] = &albedoMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[1] = &normalMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[2] = &specAndDepthMap.GetRenderTargetTexture();
-	defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
+	//defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
+	defferedSpriteData.m_textures[3] = &shadowBlur.GetBokeTexture();
 	defferedSpriteData.m_fxFilePath = "Assets/shader/deffered/defferedSprite.fx";
 	defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_None;
 	defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
@@ -135,6 +141,8 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
 	/********************************************************************************************/
+
+	shadowBlur.ExecuteOnGPU(rc, 5);
 
 	/*ディファード作成*****************************************************************************/
 	rc.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
