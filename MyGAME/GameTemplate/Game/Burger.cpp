@@ -73,10 +73,15 @@ bool Burger::Start()
 	m_effect->SetScale(EFFECT_SCALE);
 	m_effect->SetPosition(m_position);
 
-	m_oilEffect = NewGO<Effect>(0);
+	m_oilEffect = NewGO<Effect>(10);
 	m_oilEffect->Init(u"Assets/effect/meatOil2.efk");
-	m_oilEffect->SetScale({ 25.0f,25.0f,25.0f });
+	m_oilEffect->SetScale({ 50.0f,50.0f,50.0f });
 	m_oilEffect->Update();
+
+	m_yugeEffect = NewGO<Effect>(10);
+	m_yugeEffect->Init(u"Assets/effect/yuge.efk");
+	m_yugeEffect->SetScale({ 25.0f,25.0f,25.0f });
+	m_yugeEffect->Update();
 
 	//フォワードでブルーム適用するか
 	m_skinModelRender->SetApplyBlur(true);
@@ -176,10 +181,22 @@ void Burger::Update()
 	SetOnTrashCan();
 
 	m_dropOilDelay += GameTime().GetFrameDeltaTime();
-	if (m_dropOilDelay >= 3.0f)
+	int timer = (int)m_dropOilDelay;
+
+	if (timer % 2 == 1)
 	{
 		Quaternion qRot;
-		qRot.SetRotation({0.0f,0.0f,1.0f}, {0.0f,1.0f,0.0f});
+		qRot.SetRotation({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f });
+		Vector3 effectPos = m_position;
+		effectPos.y += 100.0f;
+		m_yugeEffect->SetPosition(effectPos);
+		//m_yugeEffect->SetRotation(qRot);
+		m_yugeEffect->Play();
+	}
+	if (timer == 3)
+	{
+		Quaternion qRot;
+		qRot.SetRotation({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f });
 		Vector3 effectPos = m_position;
 		effectPos.y -= 50.0f;
 		m_oilEffect->SetPosition(effectPos);

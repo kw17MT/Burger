@@ -81,7 +81,7 @@ bool FixedUI::Start()
 	m_time->SetPivot(TIME_NUM_PIVOT);
 
 	std::wstring fontRemainingTime;
-	fontRemainingTime = std::to_wstring(m_remainingTime);
+	fontRemainingTime = std::to_wstring((int)m_remainingTime);
 	
 	//残り時間を更新する。
 	m_time->SetText(fontRemainingTime.c_str());

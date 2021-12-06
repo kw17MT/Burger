@@ -36,6 +36,7 @@ namespace
 	const float MOVESPEED = 130.0f;
 	const float AJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
 	const float AJUST_HEIGHT = 40.0f;
+	const float AJUST_HEIGHTON_KITCHEN = 100.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_GUZAI = 100.0f;
 	const float SE_GRAB_VOLUME = 0.9f;
 	const float SE_PUT_VOLUME = 1.0f;
@@ -223,7 +224,14 @@ void Guzai::Put()
 			m_player00->SetTarget(m_isTargeted);
 			//キッチンのY座標を 積んだ具材数 分上げる。
 			m_position = m_kitchen00->GetKitchenPos();
-			m_position.y += m_kitchen00->GetStackNum() * AJUST_HEIGHT;
+			if (m_kitchen00->GetStackNum() <= 1)
+			{
+				m_position.y += m_kitchen00->GetStackNum() * AJUST_HEIGHTON_KITCHEN;
+			}
+			else
+			{
+				m_position.y += m_kitchen00->GetStackNum() * AJUST_HEIGHTON_KITCHEN * 0.65f;
+			}
 			m_skinModelRender->SetPosition(m_position);
 
 			//音を鳴らす
@@ -253,7 +261,14 @@ void Guzai::Put()
 			m_isTargeted = false;
 			m_player01->SetTarget(m_isTargeted);
 			m_position = m_kitchen01->GetKitchenPos();
-			m_position.y += m_kitchen01->GetStackNum() * AJUST_HEIGHT;
+			if (m_kitchen01->GetStackNum() <= 1)
+			{
+				m_position.y += m_kitchen01->GetStackNum() * AJUST_HEIGHTON_KITCHEN;
+			}
+			else
+			{
+				m_position.y += m_kitchen01->GetStackNum() * AJUST_HEIGHTON_KITCHEN * 0.65f;
+			}
 			m_skinModelRender->SetPosition(m_position);
 
 			CSoundSource* se = NewGO<CSoundSource>(0);

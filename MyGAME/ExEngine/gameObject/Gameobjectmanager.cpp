@@ -142,6 +142,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.ClearRenderTargetViews(ARRAYSIZE(defferedTargets), defferedTargets);
 	m_renderTypes = enRenderNormal;
 	CallRenderWrapper(rc);
+
 	rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 	/********************************************************************************************/
 

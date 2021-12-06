@@ -5,8 +5,8 @@ namespace
 {
 	const Vector3 EGG_SCALE = { 0.7f,1.0f,0.7f };
 	const Vector3 MAX_COOKED_EGG_SCALE = { 1.0,1.3f,1.0f };
-	const Vector3 MAX_TARGETED_SCALE = { 1.3f,1.3f,1.3f };
-	const Vector3 MIN_TARGETED_SCALE = Vector3::One;
+	const Vector3 MAX_TARGETED_SCALE = { 1.1f,1.1f,1.1f };
+	const Vector3 MIN_TARGETED_SCALE = { 0.8f,0.8f,0.8f };
 	const Vector3 TARGETED_SCALE_AMOUNT = { 0.05f,0.05f,0.05f };
 }
 
