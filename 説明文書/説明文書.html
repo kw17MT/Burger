@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyPortfolio.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<Title>私のポートフォリオ</Title>
+<h1 id="%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B">自己紹介</h1>
+<ul>
+<li>
+<h3 id="%E6%B0%8F%E5%90%8D">氏名</h3>
+<p>黒川　聖人（くろかわ　まさと）</p>
+</li>
+<li>
+<h3 id="%E6%89%80%E5%B1%9E">所属</h3>
+<p>河原電子ビジネス専門学校　ゲームクリエイター科　2年</p>
+</li>
+</ul>
+<p><br></br></p>
+<h1 id="%E5%88%B6%E4%BD%9C%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB">制作タイトル</h1>
+<ul>
+<li>
+<h3 id="burgerpicker"><strong>BurgerPicker</strong></h3>
+  <br>
+  <iframe width="600" height="370" src="https://www.youtube.com/embed/-KODHGPx7LI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</li>
+</ul>
+<p><br></br></p>
+<h1 id="%E7%9B%AE%E6%AC%A1">目次</h1>
+<ol>
+<li>
+<h3 id="%E3%82%B2%E3%83%BC%E3%83%A0%E6%A6%82%E8%A6%81"><a href="#Summary"><strong>ゲーム概要</strong></a></h3>
+</li>
+<li>
+<h3 id="%E6%8B%85%E5%BD%93%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89"><a href="#SourceCode"><strong>担当ソースコード</strong></a></h3>
+</li>
+<li>
+<h3 id="%E6%93%8D%E4%BD%9C%E8%AA%AC%E6%98%8E"><a href="#Operation"><strong>操作説明</strong></a></h3>
+</li>
+<li>
+<h3 id="%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%94%B9%E9%80%A0%E7%AE%87%E6%89%80"><a href="#Modify"><strong>ゲームエンジンの改造箇所</strong></a></h3>
+</li>
+<li>
+<h3 id="%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F%E5%86%85%E5%AE%B9%E3%83%BB%E6%8A%80%E8%A1%93"><a href="#Implement"><strong>実装した内容・技術</strong></a></h3>
+<ol>
+<li>
+<h3 id="%E3%83%87%E3%83%97%E3%82%B9%E3%82%B7%E3%83%A3%E3%83%89%E3%82%A6"><a href="#DepthShadow"><strong>デプスシャドウ</strong></a></h3>
+</li>
+<li>
+<h3 id="%E3%83%87%E3%82%A3%E3%83%95%E3%82%A1%E3%83%BC%E3%83%89%E3%83%A9%E3%82%A4%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0"><a href="#Deffered"><strong>ディファードライティング</strong></a></h3>
+</li>
+<li>
+<h3 id="pbr-physically-based-rendering"><a href="#PBR"><strong>PBR (Physically based rendering)</strong></a></h3>
+</li>
+<li>
+<h3 id="%E7%96%91%E4%BC%BCao%E3%83%9E%E3%83%83%E3%83%97"><a href="#AOMap"><strong>疑似AOマップ</strong></a></h3>
+</li>
+<li>
+<h3 id="%E5%B7%9D%E7%80%AC%E3%83%96%E3%83%AB%E3%83%BC%E3%83%A0%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF"><a href="#GaussianBlur"><strong>川瀬ブルームフィルタ</strong></a></h3>
+</li>
+<li>
+<h3 id="fxaa"><a href="#FXAA"><strong>FXAA</strong></a></h3>
+</li>
+</ol>
+</li>
+<li>
+<h3 id="%E3%81%93%E3%81%A0%E3%82%8F%E3%81%A3%E3%81%9F%E7%82%B9%E3%83%BB%E8%8B%A6%E5%8A%B4%E3%81%97%E3%81%9F%E7%82%B9"><a href="#Point"><strong>こだわった点・苦労した点</strong></a></h3>
+</li>
+</ol>
+<p><br></br></p>
+<p><a id = 'Summary'></a></p>
+<h1 id="1-%E3%82%B2%E3%83%BC%E3%83%A0%E6%A6%82%E8%A6%81">1. ゲーム概要</h1>
+<h3 id="burgerpicker"><strong>BurgerPicker</strong></h3>
+<ul>
+<li>OverCookedを参考にした、2人対戦型ハンバーガー作成ゲームです。<br>
+メビウスの輪状のコンベアに流れているハンバーガーの具材を取り、キッチンでメニュー通りのハンバーガーを作成します。<br>
+メニューの制限時間内に正しいハンバーガーを提供しスコアを獲得します。<br>
+最終的にどちらのプレイヤーが多くスコアを獲得できたかで勝敗を決めます。</li>
+</ul>
+<br>
+<ul>
+<li>
+<p>作品のGithubページ<br>
+https://github.com/kw17MT/Burger
+<br></p>
+</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3">使用ゲームエンジン</h3>
+<p>改造した学校ゲームエンジン<br>
+<br></p>
+</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E">使用言語</h3>
+<p>C++<br>
+<br></p>
+</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E3%83%84%E3%83%BC%E3%83%AB">使用ツール</h3>
+<p>Visual Studio 2019<br>
+Effekseer<br>
+<br></p>
+</li>
+<li>
+<h3 id="%E4%B8%8A%E8%A8%98%E3%83%84%E3%83%BC%E3%83%AB%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%9F%E7%90%86%E7%94%B1">上記ツールを利用した理由</h3>
+<p>チームメンバー全員が使い慣れたゲームエンジンやエディタを使用することで作業速度の差を無くし、当人自身の作業効率を高めるため。
+<br></p>
+</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA">使用ライブラリ</h3>
+<p>DirectXTK<br>
+<br></p>
+</li>
+<li>
+<h3 id="%E7%92%B0%E5%A2%83">環境</h3>
+<p>Windows10<br>
+DirectX12<br>
+<br></p>
+</li>
+<li>
+<h3 id="%E5%88%B6%E4%BD%9C%E4%BA%BA%E6%95%B0">制作人数</h3>
+<p>4人<br>
+<br></p>
+</li>
+<li>
+<h3 id="%E5%88%B6%E4%BD%9C%E6%9C%9F%E9%96%93">制作期間</h3>
+<p>2021年2月～2021年8月末</p>
+</li>
+</ul>
+<p><br></br></p>
+<p><a id = 'SourceCode'></a></p>
+<h1 id="2-%E6%8B%85%E5%BD%93%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89">2. 担当ソースコード</h1>
+<ul>
+<li>
+<h4 id="burgerh">Burger.h</h4>
+</li>
+<li>
+<h4 id="burgercpp">Burger.cpp</h4>
+</li>
+<li>
+<h4 id="guzaih">Guzai.h</h4>
+</li>
+<li>
+<h4 id="guzaicpp-%E4%B8%80%E9%83%A8">Guzai.cpp (一部)</h4>
+<pre><code>  具材を持つ、置く処理、ターゲティングされる処理とそのリアクション、キッチンから取る処理
+</code></pre>
+</li>
+<li>
+<h4 id="guzaiscaleh">GuzaiScale.h</h4>
+</li>
+<li>
+<h4 id="guzaiscalecpp">GuzaiScale.cpp</h4>
+</li>
+<li>
+<h4 id="conveyorh">Conveyor.h</h4>
+</li>
+<li>
+<h4 id="conveyorcpp">Conveyor.cpp</h4>
+</li>
+<li>
+<h4 id="counterh">Counter.h</h4>
+</li>
+<li>
+<h4 id="countercpp-%E4%B8%80%E9%83%A8">Counter.cpp (一部)</h4>
+<pre><code>  ハンバーガーの判定とハンバーガーの削除とその不随処理
+</code></pre>
+</li>
+<li>
+<h4 id="arrowh">Arrow.h</h4>
+</li>
+<li>
+<h4 id="arrowcpp">Arrow.cpp</h4>
+</li>
+<li>
+<h4 id="dishh">Dish.h</h4>
+</li>
+<li>
+<h4 id="dishcpp%E4%B8%80%E9%83%A8">Dish.cpp（一部）</h4>
+<pre><code>  移動処理以外
+</code></pre>
+</li>
+<li>
+<h4 id="dishgeneh">DishGene.h</h4>
+</li>
+<li>
+<h4 id="dishgenecpp">DishGene.cpp</h4>
+</li>
+<li>
+<h4 id="floorh">Floor.h</h4>
+</li>
+<li>
+<h4 id="floorcpp">Floor.cpp</h4>
+</li>
+<li>
+<h4 id="kitchenh">Kitchen.h</h4>
+</li>
+<li>
+<h4 id="kitchencpp">Kitchen.cpp</h4>
+</li>
+<li>
+<h4 id="menutimerh">MenuTimer.h</h4>
+</li>
+<li>
+<h4 id="menutimercpp">MenuTimer.cpp</h4>
+</li>
+<li>
+<h4 id="playerh">Player.h</h4>
+</li>
+<li>
+<h4 id="playercpp%E4%B8%80%E9%83%A8">Player.cpp(一部)</h4>
+<pre><code>  移動不可処理、回転処理以外
+</code></pre>
+</li>
+<li>
+<h4 id="playergeneh">PlayerGene.h</h4>
+</li>
+<li>
+<h4 id="playergenecpp">PlayerGene.cpp</h4>
+</li>
+<li>
+<h4 id="skinmodelrenderh">SkinModelRender.h</h4>
+</li>
+<li>
+<h4 id="skinmodelrendercpp">SkinModelRender.cpp</h4>
+</li>
+<li>
+<h4 id="trashcanh">TrashCan.h</h4>
+</li>
+<li>
+<h4 id="trashcancpp">TrashCan.cpp</h4>
+</li>
+<li>
+<h4 id="dishmanagerh">DishManager.h</h4>
+</li>
+<li>
+<h4 id="dishmanagercpp">DishManager.cpp</h4>
+</li>
+<li>
+<h4 id="gameh">Game.h</h4>
+</li>
+<li>
+<h4 id="gamecpp%E4%B8%80%E9%83%A8">Game.cpp(一部)</h4>
+<pre><code>  タイムアップ処理と回転画像の処理以外
+</code></pre>
+</li>
+<li>
+<h4 id="guzaimanagerh">GuzaiManager.h</h4>
+</li>
+<li>
+<h4 id="guzaimanagercpp">GuzaiManager.cpp</h4>
+</li>
+<li>
+<h4 id="lightmanagerh">LightManager.h</h4>
+</li>
+<li>
+<h4 id="lightmanagercpp">LightManager.cpp</h4>
+</li>
+<li>
+<h4 id="fixeduih">FixedUI.h</h4>
+</li>
+<li>
+<h4 id="fixeduicpp">FixedUI.cpp</h4>
+</li>
+<li>
+<h4 id="scoreh">Score.h</h4>
+</li>
+<li>
+<h4 id="scorecpp">Score.cpp</h4>
+</li>
+<li>
+<h4 id="spriterenderh">SpriteRender.h</h4>
+</li>
+<li>
+<h4 id="spriterendercpp">SpriteRender.cpp</h4>
+</li>
+<li>
+<h4 id="bloomh">Bloom.h</h4>
+</li>
+<li>
+<h4 id="bloomcpp">Bloom.cpp</h4>
+</li>
+<li>
+<h4 id="fxaah">FXAA.h</h4>
+</li>
+<li>
+<h4 id="fxaacpp">FXAA.cpp</h4>
+</li>
+<li>
+<h4 id="posteffecth">PostEffect.h</h4>
+</li>
+<li>
+<h4 id="posteffectcpp">PostEffect.cpp</h4>
+</li>
+<li>
+<h4 id="forwardbloomh">ForwardBloom.h</h4>
+</li>
+<li>
+<h4 id="forwardbloomcpp">ForwardBloom.cpp</h4>
+</li>
+<li>
+<h4 id="%E5%85%A8%E3%81%A6%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E3%83%AA%E3%83%95%E3%82%A1%E3%82%AF%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0">全てのファイルのリファクタリング</h4>
+</li>
+</ul>
+<p><br></br></p>
+<p><a id = 'Modify'></a></p>
+<h1 id="3-%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%94%B9%E9%80%A0%E7%AE%87%E6%89%80">3. ゲームエンジンの改造箇所</h1>
+<ul>
+<li>
+<p>オフスクリーンレンダリングを用いたポストエフェクトの作成をできるようにしました。ブラーを作成して、川瀬ブルームフィルターやFXAAの実装を可能にしました。</p>
+</li>
+<li>
+<p>同様に、シャドウの実装も行えます。</p>
+</li>
+<li>
+<p>フォワードライティングとディファードライティングの両方を行えるようにしました。</p>
+</li>
+<li>
+<h4 id="gameobjectmanagerh">GameObjectManager.h</h4>
+</li>
+<li>
+<h4 id="gameobjectmanagercpp">GameObjectManager.cpp</h4>
+<pre><code>  シャドウ、ポストエフェクト、ディファードレンダリング用のオフスクリーン描画設定
+</code></pre>
+</li>
+</ul>
+<p><br></br></p>
+<p><a id = 'Operation'></a></p>
+<h1 id="4-%E6%93%8D%E4%BD%9C%E8%AA%AC%E6%98%8E">4. 操作説明</h1>
+<p><img src="https://user-images.githubusercontent.com/54493763/126964230-02dca9ea-6da9-42c4-af7f-9b0ed3c606f1.png" alt="Operation">
+<br></br></p>
+<p><a id = 'Implement'></a></p>
+<h1 id="5-%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F%E5%86%85%E5%AE%B9%E3%83%BB%E6%8A%80%E8%A1%93">5. <strong>実装した内容・技術</strong></h1>
+<p><a id = 'DepthShadow'></a></p>
+<h1 id="i-%E3%83%87%E3%83%97%E3%82%B9%E3%82%B7%E3%83%A3%E3%83%89%E3%82%A6">i. <strong>デプスシャドウ</strong></h1>
+<p>私のゲームでは、まず先にシャドウマップを作成しています。特に今回はデプスシャドウを実装しました。
+シャドウを実装するにあたって、始めは投影シャドウを採用していました。しかし、ゲーム画面中にオブジェクトとオブジェクトが立体的に重なる箇所があり、上にある物体に下の物体の影がついてしまいとても不自然な出来になってしまったので、深度値を利用したデプスシャドウを採用しました。</p>
+<p>まず、シャドウとなるオフスクリーン画像を作成します。赤い画像はシャドウキャスターの深度値が記録されています。<br>
+この深度値を用いて、後に記述するディファードライディング部分でシャドウを落とすべきかそうでないか判定を行います。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130779324-2848b03a-5f6d-4ee1-a992-a23edb5a6641.png" alt="shadow"></p>
+<p>以下に投影シャドウとデプスシャドウの両方を実装した結果の比較があります。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/126988196-c52b6880-4acc-4776-8456-cef47c37b7e2.png" alt="ProjectionShadow"><br>
+上の画像は投影シャドウマップを利用した影生成です。
+分かりやすいように、特別にシャドウキャスターの上に板を設けて、影が映ってしまっている状況を確認しました。
+<br></p>
+<p><img src="https://user-images.githubusercontent.com/54493763/126988188-f0847d60-f3f9-4fdb-9c2c-5ed41dbdfda5.png" alt="DepthShadow"><br>
+上の画像は深度を利用したデプスシャドウマップです。<br>
+板には影が映っていないことが確認できます。  　
+<br></p>
+<p><img src="https://user-images.githubusercontent.com/54493763/126989459-a776aab6-097b-45f3-8ef4-b622e16d403a.png" alt="UsingDepthShadow"><br>
+この画像のように、具材の位置が上下になる箇所があります。<br>
+上の具材に不自然な影が映ってしまわないようにするために役立っています。
+<br></br></p>
+<p><a id = 'Deffered'></a></p>
+<h1 id="ii-%E3%83%87%E3%82%A3%E3%83%95%E3%82%A1%E3%83%BC%E3%83%89%E3%83%A9%E3%82%A4%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0">ii. <strong>ディファードライティング</strong></h1>
+<p>次に、ディファードレンダリングを行い、オブジェクトに対してシャドウマップを適用したり、ライティングを行ったりしています。
+マルチレンダリングターゲットを利用してアルベドマップ、法線マップ、深度値を持つマップを作成し、加えてレンダリングの始めに作成したシャドウマップを用いて画像を作成しています。
+<img src="https://user-images.githubusercontent.com/54493763/130778812-157dbac1-01b6-4e4a-be12-b659d7f99135.png" alt="albedo"></p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130778808-8001802b-141b-4dd3-bcf9-94a36f3ef0ba.png" alt="normal"></p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130778800-6ed984e4-f6fc-4fa2-9f57-7087d6df8a0b.png" alt="depth"></p>
+<p>ライディングは以下の順序で行っています。<br>
+1.アルベドマップから拡散反射光の色を取得。<br>
+2.法線マップから法線情報を取得。<br>
+3.深度値からビュープロジェクション行列の逆行列を用いてワールド座標を計算。<br>
+4.各物体からカメラへの正規化ベクトルを計算。<br>
+5.スポットライトの計算。<br>
+6.PBRの計算。<br>
+7.シャドウマップの適用。</p>
+<p>PBRについては次項で述べます。</p>
+<p>ここでシャドウマップを適用すべきかどうかを予め記録したシャドウマップ深度値によって決定します。<br>
+ライトのビュープロジェクション行列とワールド座標を用いてライトから見たシャドウレシーバ―のz値（奥行き）を計算します。<br>
+次に、シャドウレシーバ―の位置とシャドウマップ深度値を照らし合わせシャドウマップ深度値より大きい箇所にシャドウを落とします。（カメラから見てシャドウマップより少しでも奥の位置にあれば影はそこに落ちるはず！）</p>
+<p><br></br></p>
+<p><a id = 'PBR'></a></p>
+<h1 id="iii-pbr-physically-based-rendering">iii. <strong>PBR (Physically based rendering)</strong></h1>
+<p>以下に非正規化ランバート拡散反射光とフォン鏡面反射光を用いたライティングの計算結果とPBRを用いてライティングした結果があります。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130793329-1b05f6ba-2b5e-4084-b500-dd580ce5b498.png" alt="nonPBR"><br>
+　　　　　　　　　　　　　非正規化ランバート拡散反射光　＋　フォン鏡面反射光
+<img src="https://user-images.githubusercontent.com/54493763/130793475-8ebec828-81fc-422c-8211-d96f5e0aa499.png" alt="PBR"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　PBR適用</p>
+<p>1枚目ではランバート拡散反射光とフォン鏡面反射光を用いたライティングです。拡散反射光は正規化（円周率で除算）していないため、とても明るくなってしまっています。
+さらに、鏡面反射光と拡散反射光を単純に加算しているので設定している光の総量よりも大きくなってしまいます。<br>
+2枚目ではPBRを実装したライティングを行っています。まず、拡散反射光についてフレネル反射という入射角に応じて反射する光の量も大きくなる性質を考慮しました。光を受ける表面の粗さ、光源と視点へのベクトルの内積、法線と光源へのベクトルの内積を用いて拡散反射光の強さを計算し、最後に正規化を行います。
+鏡面反射についてはクックトランスモデルの鏡面反射光を用いています。マイクロファセット（微細な凹凸）を考慮し、法線、目線、光の向きを用いて計算しています。更に、BRDFの光の反射分布を用いてより物理的に正しくなるように計算しています。</p>
+<p>物体の窪んでいる部分など、何も工夫せずに描画したものと、PBRを用いて描画したものを比較するとかなりのビジュアルの向上が確認できました。
+<br></br></p>
+<p><a id = 'AOMap'></a></p>
+<h1 id="iv-%E7%96%91%E4%BC%BCao%E3%83%9E%E3%83%83%E3%83%97">iv. <strong>疑似AOマップ</strong></h1>
+<p><img src="https://user-images.githubusercontent.com/54493763/130784363-8f0583d1-2c70-4270-b7f2-d0809d082ce5.png" alt="nonAO"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　　PBRのみ
+<img src="https://user-images.githubusercontent.com/54493763/130784366-67f8cc13-9fcb-467a-934b-909781f7cc46.png" alt="AO"><br>
+　　　　　　　　　　　　　　　　　　　　　　　疑似AOマップ適用
+<br></br>
+テクスチャの1つとしてAOマップを用意しているわけではなく、法線情報とディレクションライトの方向を利用して環境光の適用具合をコントロールしています。<br>
+オブジェクトの上面にはあまり影響がでませんが側面には影響があり、色の明暗をはっきりさせています。
+分かりやすい部分はプレイヤーのあごに当たる部分や、帽子の側面です。</p>
+<p><br></br></p>
+<p><a id = 'GaussianBlur'></a></p>
+<h1 id="v-%E5%B7%9D%E7%80%AC%E3%83%96%E3%83%AB%E3%83%BC%E3%83%A0%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF">v. <strong>川瀬ブルームフィルタ</strong></h1>
+<p>ポストエフェクトの1つ目として川瀬式ガウシアンブラーを用いたブルームフィルタを作成しました。
+画面上で特に明るく写っている部分の輝度を用いてブルームを掛けるか否かを判別しています。
+ディレクションライトの影響の大きい上面に加え、メニューの制限時間を示すゲージにブルームを掛けます。
+ゲージについては、特別に強い光をあてることでブルームが適用されるように工夫し、強調させるようにしています。<br>
+最初に通常ゲーム画像から輝度を抽出した画像を用意します。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130741888-077f0181-f53d-4897-974c-d7f4456e1d9a.png" alt="Map"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　通常画像<br>
+<img src="https://user-images.githubusercontent.com/54493763/130741885-292c105b-1627-44b6-8c72-6f76fe9dd96a.png" alt="Luminance"><br>
+　　　　　　　　　　　　　　　　　　　　　　　輝度抽出画像</p>
+<p>次にその画像にガウシアンブラーを掛けていきます。以下が、ガウシアンブラーを掛けたもので、ブラーがかかったものにさらにブラーを掛けています。<br>
+最終的に
+<span style="color: #ff0000; ">計4回</span>
+までブラーが掛ったものを用意しました。
+<br></p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130741893-f380a426-f8f9-42b9-9c6b-a4f308487687.png" alt="Blur1"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　ブラー1回目<br>
+<img src="https://user-images.githubusercontent.com/54493763/130741894-c965f731-6d4b-4929-96c0-6f19fda503f2.png" alt="Blur2"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　ブラー2回目<br>
+<img src="https://user-images.githubusercontent.com/54493763/130741875-658c5f32-35f1-4a50-b988-5d6d830afbba.png" alt="Blur3"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　ブラー3回目<br>
+<img src="https://user-images.githubusercontent.com/54493763/130741881-17d275b3-3905-44c2-a01b-cc19c0b1d01f.png" alt="Blur4"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　ブラー4回目</p>
+<p>ガウシアンブラーが掛かった画像が計4枚できたところで、全てのブラー画像を合成し、画像の枚数（4）で除算しました。<br>
+出来上がった1枚の画像と通常描画の画像を合成することでブルームのかかった最終の画像を作成しました。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130744327-8d513a1a-69c9-4702-a1c5-dd9aafd27172.png" alt="LuminanceAplay"></p>
+<p>ブルーム適用</p>
+<p>また、特別にハンバーガーは物体自体が光り輝いている表現をしたかったため、物体の色を用いたブルーム画像を作成しました。<br>
+最初に、ハンバーガーのみを通常描画した絵を用意します。<br>
+<img src="https://user-images.githubusercontent.com/54493763/126972389-5f797183-dbae-426e-bd7a-73c8f2b3a5be.png" alt="Burger"><br>
+そのままガウシアンブラーを掛けていきます。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/126969972-63c8ca47-fb00-4d52-9b3a-c32ce21f765d.png" alt="Blur_1">
+<img src="https://user-images.githubusercontent.com/54493763/126969975-5ad46a86-063e-429c-b7c2-906386308fc8.png" alt="Blur_2"><br>
+     
+ブラー1回目
+        
+ブラー2回目
+<br></p>
+<p><img src="https://user-images.githubusercontent.com/54493763/126969976-7c659bc7-0609-48c0-a09f-381007c2471c.png" alt="Blur_3">
+<img src="https://user-images.githubusercontent.com/54493763/126969978-e153d724-069c-4c07-8ba5-03d15eb3ba8f.png" alt="Blur4"><br>
+     
+ブラー3回目
+        
+ブラー4回目
+<br></p>
+<p><img src="https://user-images.githubusercontent.com/54493763/126969981-55873f4c-9744-4a5c-a9e0-f20c475e9d1b.png" alt="Burger_Normal">
+<img src="https://user-images.githubusercontent.com/54493763/126969979-01bc583f-77fd-4dee-a638-e8251fa6345b.png" alt="Burger_Blur"><br>
+     
+通常描画
+        
+ブルーム適用</p>
+<p>プレイヤーが作ったハンバーガーをきらびやかにして少しでも達成感が増すように実装しました。
+<br></br></p>
+<p><a id = 'FXAA'></a></p>
+<h1 id="vi-fxaa">vi. <strong>FXAA</strong></h1>
+<p>レンダリングの最後にアンチエイリアスを実装しました。今回はFXAAを採用しています。
+フォワードレンダリング、ディファードレンダリングの全ての描画が書かれたオフスクリーンをターゲットにしています。
+ピクセルシェーダ―において近傍4ピクセルとの輝度の差を調査し、差が大きい時近傍ピクセルとのブレンドを行います。
+以下の画像は通常画像とアンチエイリアス適用後の画像です。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130891591-4b4d0334-e8c2-4199-bfad-a76efce43410.png" alt="nonFXAA"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　FXAA非適用
+<img src="https://user-images.githubusercontent.com/54493763/130891597-a9cc8435-f9b3-44b7-a79c-ee0f9e28391f.png" alt="FXAA"><br>
+　　　　　　　　　　　　　　　　　　　　　　　　　FXAA適用</p>
+<p>全体像での比較はメニュー下のゲージくらいしか分かりにくいため、拡大した比較図を用意しました。</p>
+<img src="https://user-images.githubusercontent.com/54493763/130892190-cf140960-ab52-4763-9a51-87aaf4dbbd2d.png" width="410">
+<img src="https://user-images.githubusercontent.com/54493763/130892186-fd33275e-d5d4-4251-bcf0-2755b4f9538c.png" width="410">  
+&emsp;&emsp;&emsp;　　　　　　　FXAA非適用　　　　　　　　　　　　　　　　　　　　　　FXAA適用
+<p>特にチーズや卵が拡大すると分かりやすかったので比較に上げました。
+チーズの縁部分はジャギーが消えていることが確認できます。</p>
+<p><br></br></p>
+<p><a id = 'Point'></a></p>
+<h1 id="6-%E3%81%93%E3%81%A0%E3%82%8F%E3%81%A3%E3%81%9F%E7%82%B9%E3%83%BB%E8%8B%A6%E5%8A%B4%E3%81%97%E3%81%9F%E7%82%B9">6. こだわった点・苦労した点</h1>
+<h2 id="i-%E5%85%B7%E6%9D%90%E3%81%AE%E3%82%BF%E3%83%BC%E3%82%B2%E3%83%83%E3%83%88%E6%99%82%E3%81%AE%E3%83%AA%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3">i. 具材のターゲット時のリアクション</h2>
+<p>プレイヤーが具材の近くに来た時に、その時点で取れる具材を拡大表示しています。
+具材の周りにアイコンなどの主張するものを出すのではなく、具材のオブジェクト自体を拡大縮小しています。様々なオブジェクトが動いている中、雑多になり過ぎずプレイヤーがどれを取ることができるのか分かりやすくしました。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130946277-541adc31-1867-4660-b371-336a4fd2b48c.gif" alt="pick"></p>
+<h2 id="ii-%E3%83%8F%E3%83%B3%E3%83%90%E3%83%BC%E3%82%AC%E3%83%BC%E4%BD%9C%E6%88%90%E6%99%82%E3%81%AE%E5%85%B7%E6%9D%90%E3%81%AE%E3%83%AA%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3">ii. ハンバーガー作成時の具材のリアクション</h2>
+<p>ハンバーガーを作る際、キッチンに積まれている具材を全部消してハンバーガーを出現させています。具材を一瞬でパッと消すのではなく、一度一か所に集まった時に消しています。積み上げた具材からハンバーガーが作られていることを視覚的に表現しました。
+技術紹介でも述べましたが、ハンバーガーだけに自身の色のブルームを掛けています。最終目標がきらびやかで目立つ方が達成感も増すと思い付加しています。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/130946267-3b06d1eb-2189-4da5-98e4-d5279f463f83.gif" alt="burger"></p>
+<h2 id="iii-%E3%82%A6%E3%82%A7%E3%82%A4%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E7%A7%BB%E5%8B%95">iii. ウェイポイントを用いたオブジェクトの移動</h2>
+<p>上の画像のようにお皿と具材は常に動いています。これはレベルを作成する際にウェイポイントを作成し、番号付けをしました。自分は今何番のところにいるのか、次はどこを目指せばいいのか、ウェイポイントを用いて命令しています。</p>
+
+</body>
+</html>
