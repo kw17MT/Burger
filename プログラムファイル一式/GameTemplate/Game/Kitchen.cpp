@@ -11,8 +11,6 @@
 
 namespace
 {
-	const Vector3 MOVE_SPEED_ZERO = Vector3::Zero;
-
 	const int PLAYER_NAME_SIZE = 9;
 	const int COUNTER_NAME_SIZE = 10;
 	const int BURGER_NAME_SIZE = 9;
@@ -29,7 +27,7 @@ namespace
 	const int DEFAULT_DELAY_NUMBER = 60;
 
 	const float SCALE_DECREASE_SPEED = 1.4f / 60.0f;
-	const float GUZAI_DOWN_SPEED = 0.7f;
+	const float GUZAI_DOWN_SPEED = 0.5f;
 	const float SE_VOLUME = 1.5f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_KITCHEN = 100.0f;
 }
@@ -109,7 +107,6 @@ void Kitchen::BornBurger()
 		m_delay--;
 		//プレイヤーが動けないようにする。
 		m_player->StopMove(true);
-		m_player->SetMoveSpeed(MOVE_SPEED_ZERO);
 		if (m_soundFlag == false) {
 			//調理の進み具合のメーターを表示
 			m_meter = NewGO<Meter>(0);
@@ -162,7 +159,7 @@ void Kitchen::BornBurger()
 	else {
 		if (m_isPlayerCookingOnKitchen == false) {
 			m_delay = DEFAULT_DELAY_NUMBER;
-			m_player -> StopMove(false);
+			//m_player -> StopMove(false);
 		}
 
 		//音が出ていれば消す。
@@ -181,7 +178,10 @@ void Kitchen::BornBurger()
 			m_slidePos = m_stackedGuzai[i]->GetPosition();
 			//具材のy座標を(速度×積んでる段数)で下げる。
 			m_slidePos.y -= GUZAI_DOWN_SPEED * i;
+			Vector3 scale = m_stackedGuzai[i]->GetScale();
+			scale.z -= 0.1f;
 			m_stackedGuzai[i]->SetPosition(m_slidePos);
+			m_stackedGuzai[i]->SetScale(scale);
 		}
 		if (m_delay == 0) {
 			//キッチンについている具材を全部消去
@@ -190,7 +190,7 @@ void Kitchen::BornBurger()
 			if (m_kitchenNo == 0) {
 				bur = NewGO<Burger>(0, "burger00");
 			}
-			if (m_kitchenNo == 1) {
+			else if (m_kitchenNo == 1) {
 				bur = NewGO<Burger>(0, "burger01");
 			}
 

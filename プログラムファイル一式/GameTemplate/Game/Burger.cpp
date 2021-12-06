@@ -18,8 +18,8 @@ namespace {
 	const int NONE = 9;
 	const int DEFAULT_DECREMENT_TIME = 20;
 	const float SPACE_BETWEEN_KITCHEN_TO_BURGER = 100.0f;
-	const float AJUST_HEIGHT = 50.0f;
-	const float AJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
+	const float ADJUST_HEIGHT = 50.0f;
+	const float ADJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_BURGER = 150.0f;
 	const float SE_VOLUME = 2.0f;
 }
@@ -97,7 +97,7 @@ void Burger::GrabBurger()
 	//プレイヤーの通常移動速度を取得
 	Vector3 plSpeed = m_player->GetNormalMoveSpeed();
 	//プレイヤーの移動速度を上げる
-	plSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+	plSpeed *= ADJUST_SPEED_TO_FOLLOW_PLAYER;
 
 	//プレイヤーとハンバーガーの距離を測る
 	Vector3 playerToBurgerVec = plPos - m_position;
@@ -122,7 +122,7 @@ void Burger::GrabBurger()
 		plPos += plSpeed;
 		m_beHadPos = plPos;
 		//高さを調整。
-		m_beHadPos.y += AJUST_HEIGHT;
+		m_beHadPos.y += ADJUST_HEIGHT;
 		//カウンタ―に置かれていないとき、プレイヤーの手元に来るように位置調整。
 		if (m_putOnCounter == false) {
 			m_position = m_beHadPos;
@@ -170,7 +170,7 @@ void Burger::SetOnTrashCan()
 		}
 		//消すまではゴミ箱の上で待機させる。
 		m_position = m_trashCan->GetPosition();
-		m_position.y += AJUST_HEIGHT;
+		m_position.y += ADJUST_HEIGHT;
 	}
 }
 

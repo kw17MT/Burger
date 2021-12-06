@@ -92,6 +92,9 @@ public:
 	 * @return 具材の位置座標
 	*/
 	Vector3 GetPosition() const { return m_position; }
+
+	Vector3 GetScale() { return m_scale; }
+
 	/**
 	 * @brief 自分の具材ナンバーのゲッタ―
 	 * @return 具材種類の番号

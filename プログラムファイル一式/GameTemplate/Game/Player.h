@@ -22,7 +22,7 @@ private:
 	const int m_maxNumCanSaveGuzaiType = 10;						//プレイヤーが保存できる具材種類の総数
 	int m_playerNo = 0;												//０で左、１で右
 	int m_have = enNothing;											//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。-1でキッチンからはとれる状態
-	int m_guzaiNo[10] = {9,9,9,9,9,9,9,9,9,9};			//積み上げている具材の種類を格納していく。
+	int m_guzaiNo[10] = {9,9,9,9,9,9,9,9,9,9};						//積み上げている具材の種類を格納していく。
 	int m_moveCounter = 0;											//プレイヤーが歩いたときに生じるエフェクトのタイマー
 	
 	bool m_targetingState = false;									//今、具材をターゲットしているか。1個以上ターゲティングしないように。
@@ -133,7 +133,7 @@ public:
 
 	/**
 	 * @brief 移動不可を設定
-	 * @param tf TRUE＝移動できない　FALSE＝移動できる
+	 * @param m_moveStop TRUE＝移動できない　FALSE＝移動できる
 	*/
 	void StopMove(bool makeStoped) { m_moveStop = makeStoped; }
 

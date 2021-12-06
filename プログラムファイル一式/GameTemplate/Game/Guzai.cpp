@@ -21,7 +21,6 @@
 namespace
 {
 	const Vector3 EGG_SCALE = { 0.7f,1.0f,0.7f };
-	const Vector3 MOVE_SPEED_ZERO = Vector3::Zero;
 	const int PLAYER_NONE = -1;
 	const int PLAYER_ONE = 0;
 	const int PLAYER_TWO = 1;
@@ -34,8 +33,9 @@ namespace
 	const int GUZAIOKIBA_MIDDLE_NUM = 4;
 	const int GUZAIOKIBA_MAX_NUM = 8;
 	const float MOVESPEED = 130.0f;
-	const float AJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
-	const float AJUST_HEIGHT = 50.0f;
+	const float ADJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
+	const float ADJUST_HEIGHT = 40.0f;
+	const float ADJUST_HEIGHT_ON_KITCHEN = 100.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_GUZAI = 100.0f;
 	const float SE_GRAB_VOLUME = 0.9f;
 	const float SE_PUT_VOLUME = 1.0f;
@@ -43,10 +43,10 @@ namespace
 	const float SE_CUTTING_VOLUME = 0.8f;
 	const float SE_TARGET_VOLUME = 0.2f;
 	const float ANGLE_ADD_AMOUNT = 2.0f;
-	const float AJUST_METER_X_POS0 = 350.0f;
-	const float AJUST_METER_X_POS1 = 250.0f;
-	const float AJUST_METER_Y_POS = 300.0f;
-	const float AJUST_METER_Z_POS = 20.0f;
+	const float ADJUST_METER_X_POS0 = 350.0f;
+	const float ADJUST_METER_X_POS1 = 250.0f;
+	const float ADJUST_METER_Y_POS = 300.0f;
+	const float ADJUST_METER_Z_POS = 20.0f;
 	const float METER_SHRINK_SPEED = 1.4f / 60.0f;
 }
 
@@ -182,18 +182,18 @@ void Guzai::Grab()
 		if (m_whichPlayerGet == PLAYER_ONE) {
 			//具材の位置をプレイヤーの少し前にする。
 			Vector3 pl00MSpeed = m_player00->GetNormalMoveSpeed();
-			pl00MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+			pl00MSpeed *= ADJUST_SPEED_TO_FOLLOW_PLAYER;
 			plPos00 += pl00MSpeed;
-			plPos00.y += AJUST_HEIGHT;
+			plPos00.y += ADJUST_HEIGHT;
 			SetPosition(plPos00);
 			//持っている最中、その具材を拡大表示したくないため。
 			m_isTargeted = false;
 		}
 		if (m_whichPlayerGet == PLAYER_TWO) {
 			Vector3 pl01MSpeed = m_player01->GetNormalMoveSpeed();
-			pl01MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+			pl01MSpeed *= ADJUST_SPEED_TO_FOLLOW_PLAYER;
 			plPos01 += pl01MSpeed;
-			plPos01.y += AJUST_HEIGHT;
+			plPos01.y += ADJUST_HEIGHT;
 			SetPosition(plPos01);
 			m_isTargeted = false;
 		}
@@ -229,7 +229,15 @@ void Guzai::Put()
 			m_player00->SetTarget(m_isTargeted);
 			//キッチンのY座標を 積んだ具材数 分上げる。
 			m_position = m_kitchen00->GetKitchenPos();
-			m_position.y += m_kitchen00->GetStackNum() * AJUST_HEIGHT;
+			if (m_kitchen00->GetStackNum() >= 1)
+			{
+				m_position.y += (m_kitchen00->GetStackNum()+1) * ADJUST_HEIGHT;
+			}
+			else
+			{
+				m_position.y += (m_kitchen00->GetStackNum()+1) * ADJUST_HEIGHT_ON_KITCHEN;
+			}
+
 			m_skinModelRender->SetPosition(m_position);
 
 			//音を鳴らす
@@ -259,7 +267,14 @@ void Guzai::Put()
 			m_isTargeted = false;
 			m_player01->SetTarget(m_isTargeted);
 			m_position = m_kitchen01->GetKitchenPos();
-			m_position.y += m_kitchen01->GetStackNum() * AJUST_HEIGHT;
+			if (m_kitchen01->GetStackNum() >= 1)
+			{
+				m_position.y += (m_kitchen01->GetStackNum()+1) * ADJUST_HEIGHT;
+			}
+			else
+			{
+				m_position.y += (m_kitchen01->GetStackNum()+1) * ADJUST_HEIGHT_ON_KITCHEN;
+			}
 			m_skinModelRender->SetPosition(m_position);
 
 			CSoundSource* se = NewGO<CSoundSource>(0);
@@ -344,7 +359,7 @@ void Guzai::SetGuzaiOkiba()
 				//座標を具材置き場の上にセットする。
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
 				if (m_isCooked == true) {
-					m_position.y += AJUST_HEIGHT;
+					m_position.y += ADJUST_HEIGHT;
 				}
 				//具材置き場にセットされた。
 				m_guzaiOkibaSet = true;
@@ -376,7 +391,7 @@ void Guzai::SetGuzaiOkiba()
 				m_guzaiOkiba->GuzaiSet(i, true);
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
 				if (m_isCooked == true) {
-					m_position.y += AJUST_HEIGHT;
+					m_position.y += ADJUST_HEIGHT;
 				}
 				m_guzaiOkibaSet = true;
 				m_setKitchenNum = i;
@@ -411,7 +426,7 @@ void Guzai::AwayFromGuzaiOkiba()
 
 void Guzai::Cooking()
 {
-	//自身が具材置き場にセットされていて、調理されておらず、ダミーを出しているとき。
+	//自身が具材置き場にセットされていて、調理されておらず、ターゲットされているとき。
 	if (m_guzaiOkibaSet == true && m_isCooked == false && m_isTargeted) {
 		//1P側の処理
 		//1P側のBボタンが押されていて自身のセット場所が1P側だった場合…
@@ -419,15 +434,14 @@ void Guzai::Cooking()
 			//押している時間をインクリメント
 			m_hold01++;
 			m_player00->StopMove(true);
-			m_player00->SetMoveSpeed(MOVE_SPEED_ZERO);
 			//音が出ていなかったら。
 			if (m_soundFlag01 == false) {
 				//調理の進み具合を示すメーター
 				m_meter = NewGO<Meter>(0);
 				Vector3 pos = m_position;
-				pos.x -= AJUST_METER_X_POS0;
-				pos.y += AJUST_METER_Y_POS;
-				pos.z += AJUST_METER_Z_POS;
+				pos.x -= ADJUST_METER_X_POS0;
+				pos.y += ADJUST_METER_Y_POS;
+				pos.z += ADJUST_METER_Z_POS;
 				m_meter->SetPosition(pos);
 				//音を鳴らす
 				m_cookingSe = NewGO<CSoundSource>(0);
@@ -445,7 +459,7 @@ void Guzai::Cooking()
 				//調理後のモデルに変更。
 				ChangeModel(m_typeNo);
 				m_isCooked = true;
-				m_position.y += AJUST_HEIGHT;
+				m_position.y += ADJUST_HEIGHT;
 				m_isTargeted = false;
 				m_player00->SetTarget(m_isTargeted);
 				m_whichPlayerTargetMe = PLAYER_NONE;
@@ -478,14 +492,13 @@ void Guzai::Cooking()
 		if (g_pad[PLAYER_TWO_CONTROLLER]->IsPress(enButtonB) && m_setKitchenNum < GUZAIOKIBA_MIDDLE_NUM && m_player01->GetPlayerState() <= enNothing) {
 			m_hold02++;
 			m_player01->StopMove(true);
-			m_player01->SetMoveSpeed(MOVE_SPEED_ZERO);
 			////音が出ていなかったら。
 			if (m_soundFlag02 == false) {
 				m_meter = NewGO<Meter>(0);
 				Vector3 pos = m_position;
-				pos.x += AJUST_METER_X_POS1;
-				pos.y += AJUST_METER_Y_POS;
-				pos.z += AJUST_METER_Z_POS;
+				pos.x += ADJUST_METER_X_POS1;
+				pos.y += ADJUST_METER_Y_POS;
+				pos.z += ADJUST_METER_Z_POS;
 				m_meter->SetPosition(pos);
 				//音を鳴らす
 				m_cookingSe = NewGO<CSoundSource>(0);
@@ -501,7 +514,7 @@ void Guzai::Cooking()
 				
 				ChangeModel(m_typeNo);
 				m_isCooked = true;
-				m_position.y += AJUST_HEIGHT;
+				m_position.y += ADJUST_HEIGHT;
 				m_isTargeted = false;
 				m_player01->SetTarget(m_isTargeted);
 				m_whichPlayerTargetMe = PLAYER_NONE;
@@ -627,7 +640,7 @@ void Guzai::IfReturnedFromKitchen()
 				//具材の位置をプレイヤーの少し前にする。
 				Vector3 pl00MSpeed = m_player00->GetNormalMoveSpeed();
 				Vector3 plPos00 = m_player00->GetPosition();
-				pl00MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+				pl00MSpeed *= ADJUST_SPEED_TO_FOLLOW_PLAYER;
 				plPos00 += pl00MSpeed;
 				SetPosition(plPos00);
 				//音を鳴らす
@@ -639,7 +652,7 @@ void Guzai::IfReturnedFromKitchen()
 			if (m_whichPlayerGet == PLAYER_TWO) {
 				Vector3 pl01MSpeed = m_player01->GetNormalMoveSpeed();
 				Vector3 plPos01 = m_player01->GetPosition();
-				pl01MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+				pl01MSpeed *= ADJUST_SPEED_TO_FOLLOW_PLAYER;
 				plPos01 += pl01MSpeed;
 				SetPosition(plPos01);
 				//音を鳴らす
@@ -721,14 +734,14 @@ void Guzai::Update()
 	//具材置き場に置かれているときの位置調整
 	if (m_guzaiOkibaSet == true) {
 		Vector3 SetPos = m_position;
-		SetPos.y += AJUST_HEIGHT;
+		SetPos.y += ADJUST_HEIGHT;
 		m_skinModelRender->SetPosition(SetPos);
 	}
 	//置かれていなければ
 	else {
 		m_skinModelRender->SetPosition(m_position);
 	}
-
+	
 	//ターゲットされているかどうかの状況に応じた拡大率の更新
 	m_scale = GuzaiScale::ChangeScaleDependOnTargetedState(m_isTargeted, m_typeNo, m_scale);
 	m_skinModelRender->SetScale(m_scale);

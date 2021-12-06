@@ -12,7 +12,6 @@ namespace
 	const Vector3 EFFECT_SCALE = { 10.0f,10.0f,10.0f };
 	const Vector3 FRONT_DIRECTION = { 0.0f,0.0f,1.0f };
 	const Vector3 RIGHT_DIRECTION = { 1.0f,0.0f,0.0f };
-	const Vector3 PLYAER_SPEED_ZERO = Vector3::Zero;
 
 	const int KITCHEN_NAME_SIZE = 10;
 	const int PLAYER_NUMBER_ONE = 0;
@@ -44,7 +43,7 @@ bool Player::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 
 	if (m_playerNo == PLAYER_NUMBER_ONE) {
-		//通常描画用
+		//通常描画用赤色シェフモデル
 		m_skinModelRender->InitForRecieveShadow(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
@@ -58,11 +57,9 @@ bool Player::Start()
 			enModelUpAxisZ,
 			m_position
 		);
-
-		
 	}
 	else {
-		//通常描画用
+		//通常描画用青色シェフモデル
 		m_skinModelRender->InitForRecieveShadow(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
@@ -146,41 +143,49 @@ void Player::RestrictPos()
 
 void Player::PlayerRotation()
 {
-	//回転処理
-	//自身の上と右を定義(見下ろしなので)
-	Vector3 frontDirP1 = FRONT_DIRECTION;
-	frontDirP1.Normalize();
-	Vector3 rightDirP1 = RIGHT_DIRECTION;
-	rightDirP1.Normalize();
+	if (!m_moveStop)
+	{
+		//回転処理
+		//自身の上と右を定義(見下ろしなので)
+		Vector3 frontDirP1 = FRONT_DIRECTION;
+		frontDirP1.Normalize();
+		Vector3 rightDirP1 = RIGHT_DIRECTION;
+		rightDirP1.Normalize();
 
-	//回転軸の決定
-	Vector3 AxisYP1;
-	AxisYP1.Cross(frontDirP1, rightDirP1);
+		//回転軸の決定
+		Vector3 AxisYP1;
+		AxisYP1.Cross(frontDirP1, rightDirP1);
 
-	//水平方向と奥行方向への入力を受け取り
-	float LStickXP1 = g_pad[m_playerNo]->GetLStickXF();
-	float LStickZP1 = g_pad[m_playerNo]->GetLStickYF() * -1.0f; //奥行方向の逆転を-1.0fを掛けて補正
+		//水平方向と奥行方向への入力を受け取り
+		float LStickXP1 = g_pad[m_playerNo]->GetLStickXF();
+		float LStickZP1 = g_pad[m_playerNo]->GetLStickYF() * -1.0f; //奥行方向の逆転を-1.0fを掛けて補正
 
-	if (fabsf(LStickXP1) < 0.001f && fabsf(LStickZP1) < 0.001f) {
-		//return; //returnすると以下の処理がすっ飛ばされてUpdateの最後にいってしまう。
-	}
-	else {
-		//二つの入力値が成す角を求める(ラジアン角)
-		m_angle = atan2(LStickXP1, LStickZP1);
-		//縦軸まわりの回転を求める(ラジアン角を引数に渡すためSetRotation)
-		m_rotation.SetRotation(AxisYP1, -m_angle);
+		if (fabsf(LStickXP1) < 0.001f && fabsf(LStickZP1) < 0.001f) {
+			//return; //returnすると以下の処理がすっ飛ばされてUpdateの最後にいってしまう。
+		}
+		else {
+			//二つの入力値が成す角を求める(ラジアン角)
+			m_angle = atan2(LStickXP1, LStickZP1);
+			//縦軸まわりの回転を求める(ラジアン角を引数に渡すためSetRotation)
+			m_rotation.SetRotation(AxisYP1, -m_angle);
+		}
 	}
 }
 
 void Player::RestrictMove()
 {
-	if (m_moveStop == false) {
+	//プレイヤーを動かしたくないとき
+	if (m_moveStop)
+	{
+		//移動速度をゼロに数する
+		m_moveSpeed = Vector3::Zero;
+	}
+	//プレイヤーが動けるとき
+	else
+	{
+		//コントローラの入力量によって移動速度を決定する。
 		m_moveSpeed.x = g_pad[m_playerNo]->GetLStickXF() * AJUST_PLAYER_SPEED;
 		m_moveSpeed.z = g_pad[m_playerNo]->GetLStickYF() * AJUST_PLAYER_SPEED;
-	}
-	if (m_moveStop == true)
-	{
-		m_moveSpeed = PLYAER_SPEED_ZERO;
 	}
 
 	m_position += m_moveSpeed;
@@ -224,10 +229,10 @@ void Player::Update()
 	//プレイヤーの回転処理
 	PlayerRotation();
 
-	//移動の宣言をつかさどる
+	//移動を制限
 	RestrictMove();
 
-	//移動を制限
+	//移動範囲を制限
 	RestrictPos();
 
 	//歩いたときにエフェクトを出す
