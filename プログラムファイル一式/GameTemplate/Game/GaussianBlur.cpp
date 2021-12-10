@@ -2,12 +2,12 @@
 #include "GaussianBlur.h"
 //#include "RenderContext_inline.h"
 
-void GaussianBlur::Init(Texture* originalTexture)
+void GaussianBlur::Init(Texture* originalTexture, bool isDownSamle)
 {
 	m_originalTexture = originalTexture;
 
 	//レンダリングターゲットを初期化。
-	InitRenderTargets();
+	InitRenderTargets(isDownSamle);
 	//スプライトを初期化。
 	InitSprites();
 }
@@ -43,14 +43,18 @@ void GaussianBlur::ExecuteOnGPU(RenderContext& rc, float blurPower)
 	rc.WaitUntilFinishDrawingToRenderTarget(m_yBlurRenderTarget);
 }
 
-void GaussianBlur::InitRenderTargets()
+void GaussianBlur::InitRenderTargets(bool isDownSample)
 {
+	float w = m_originalTexture->GetWidth();
+	float half_w = w / 2;
+	float h = m_originalTexture->GetHeight();
+	float half_h = h / 2;
 	//Xブラー用のレンダリングターゲットを作成する。
 	m_xBlurRenderTarget.Create(
 		//ここが1280,720になればちゃんと映る。
 		//1280,720,
-		m_originalTexture->GetWidth() / 2,			//640
-		m_originalTexture->GetHeight(),				//720
+		isDownSample ? half_w : w,			//640
+		h,									//720
 		1,
 		1,
 		m_originalTexture->GetFormat(),
@@ -61,8 +65,8 @@ void GaussianBlur::InitRenderTargets()
  	m_yBlurRenderTarget.Create(
 		//ここが1280,720になればちゃんと映る。
 		//1280, 720,
-		m_originalTexture->GetWidth() / 2,			//640
-		m_originalTexture->GetHeight() / 2,			//360
+		isDownSample ? half_w : w,			//640
+		isDownSample ? half_h : h,			//640
 		1,
 		1,
 		m_originalTexture->GetFormat(),

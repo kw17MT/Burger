@@ -29,7 +29,7 @@ struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
 	float3 normal		: NORMAL;		//法線。
 	float2 uv 			: TEXCOORD0;	//uv座標。
-    float2 depth : TEXCOORD1;
+    float depth			: TEXCOORD1;
 };
 
 ///////////////////////////////////////////////////
@@ -55,8 +55,8 @@ SPSIn VSMain(SVSIn vsIn)
 	psIn.uv = vsIn.uv;
 	psIn.normal = mul(mWorld, vsIn.normal);
 	
-    psIn.depth.x = length(worldPos - ligPos) / 2000.0f;
-    psIn.depth.y = psIn.depth.x * psIn.depth.x;
+    psIn.depth = length(worldPos - ligPos) / 2000.0f;
+	
 	return psIn;
 }
 
@@ -67,10 +67,6 @@ static const float INFINITY = 40.0f;
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
-	//デプスシャドウ描画用
-	return float4(psIn.depth.x, psIn.depth.y, 0.0f, 1.0f);
-	
-	//以下EVSM？
-    //float pos = exp(INFINITY * psIn.pos.z);
-   // return float4(pos, pos * pos, 0.0f, 1.0f);
+	//分散シャドウマップに利用する深度値
+    return float4(psIn.depth, psIn.depth * psIn.depth, 0.0f, 1.0f);
 }

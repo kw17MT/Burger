@@ -37,7 +37,7 @@ GameObjectManager::GameObjectManager()
 
 	//シャドウのオフスクリーンレンダリング作成
 	shadowMap.Create(
-		2048,
+		4096,
 		2048,
 		1,
 		1,
@@ -48,13 +48,13 @@ GameObjectManager::GameObjectManager()
 	);
 
 
-	shadowBlur.Init(&shadowMap.GetRenderTargetTexture());
+	shadowBlur.Init(&shadowMap.GetRenderTargetTexture(), false);
 
 	//ライトカメラの作成
 	lightCamera.SetPosition(0.0f, 1000.0f, -500.0f);
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
-	lightCamera.SetUp({ 1, 0, 0});							//カメラの上をX座標にしておく
-	lightCamera.SetViewAngle(Math::DegToRad(145.0f));
+	lightCamera.SetUp({ 0, 0, 1});							//カメラの上をX座標にしておく
+	lightCamera.SetViewAngle(Math::DegToRad(105.0f));
 	//平行投影にする場合
 	/*
 	lightCamera.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);

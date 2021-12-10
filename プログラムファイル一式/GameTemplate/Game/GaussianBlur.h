@@ -15,7 +15,7 @@ private:
 	/// <summary>
 	/// レンダリングターゲットを初期化。
 	/// </summary>
-	void InitRenderTargets();
+	void InitRenderTargets(bool isDownSample);
 	/// <summary>
 	/// スプライトを初期化。
 	/// </summary>
@@ -28,7 +28,7 @@ private:
 public:
 	
 	//ガウシアンブラーをかけるテクスチャ。
-	void Init(Texture* originalTexture);
+	void Init(Texture* originalTexture, bool isDownSamle = true);
 	/// <summary>
 	/// ガウシアンブラーをGPU上で実行。
 	/// </summary>
