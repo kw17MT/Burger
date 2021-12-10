@@ -21,17 +21,9 @@ private:
 	struct copyToVRAMDatas
 	{
 		//光の位置を示すカメラの取得
-		Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
-		Vector3 s_lightPos = GameObjectManager::GetInstance()->GetLightCamera().GetPosition();
+		Matrix s_lightCameraMatrix = RenderingEngine::GetInstance().GetLightCamera().GetViewProjectionMatrix();
+		Vector3 s_lightPos = RenderingEngine::GetInstance().GetLightCamera().GetPosition();
 	}m_dataCopyToVRAM;
-
-	enum EnRenderTaypes
-	{
-		enRenderNormal,					//通常描画タイプ
-		enRenderShade,					//影描画タイプ
-		enRenderLuminance,				//輝度描画タイプ
-		enRenderDepthInView				//被写界深度描画タイプ
-	};
 
 public:
 	SkinModelRender() {};
@@ -73,16 +65,6 @@ public:
 	 * @return 新しい拡大率
 	*/
 	Vector3 GetScale() const { return m_scale; }
-
-	/**
-	 * @brief モデルの初期化を行う。ライトを独自のものにしたいときはこっちをつかう
-	 * @param filePath モデルのファイルパス
-	 * @param skeletonPath スケルトンのファイルパス
-	 * @param UpAxis どの軸を上にするか
-	 * @param pos モデルを出現させる最初の位置
-	*/
-	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
-	//モデルのファイルパスのみを変更するときに使用する。
 
 	/**
 	 * @brief 影を生成する人のモデル初期化関数
@@ -164,17 +146,16 @@ public:
 	void Render(RenderContext& rc) 
 	{
 		//普通描画
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderNormal
-			|| GameObjectManager::GetInstance()->GetRenderTypes() == enRenderDepthInView) {
+		if (RenderingEngine::GetInstance().GetRenderTypes() == enRenderNormal) {
 			m_model.Draw(rc);
 			return;
 		}
 		//影作る
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderShade) {
-			m_shadow.Draw(rc, GameObjectManager::GetInstance()->GetLightCamera());
+		if (RenderingEngine::GetInstance().GetRenderTypes() == enRenderShade) {
+			m_shadow.Draw(rc, RenderingEngine::GetInstance().GetLightCamera());
 			return;
 		}
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderLuminance) {
+		if (RenderingEngine::GetInstance().GetRenderTypes() == enRenderLuminance) {
 			if (m_isApplyBlur) {
 				m_model.Draw(rc);
 				return;

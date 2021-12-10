@@ -55,7 +55,7 @@ bool TrashCan::Start()
 	//ゴミ箱に近づくと矢印が出るように
 	m_arrow = NewGO<SkinModelRender>(0);
 	//通常モデルの初期化
-	m_arrow->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_arrow->InitForRecieveShadow("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
 	//シャドウキャスト用の初期化
 	m_arrow->InitForCastShadow("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
 	//拡大率を調整

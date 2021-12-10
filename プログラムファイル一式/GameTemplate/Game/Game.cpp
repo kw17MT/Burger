@@ -345,6 +345,11 @@ void Game::Update()
 		}
 	}
 
+	if (g_pad[0]->IsTrigger(enButtonStart))
+	{
+		DishManager::GetInstance().SetOrderChangeDirection(true);
+	}
+
 	//–Úü‚ÌˆÊ’u‚ÌXV
 	LightManager::GetInstance().UpdateEyePos();
 }

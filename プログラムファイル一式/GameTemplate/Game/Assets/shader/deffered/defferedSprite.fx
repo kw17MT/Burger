@@ -159,7 +159,6 @@ float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
     return max(F * D * G / m, 0.0);
 }
 
-
 /****************ここまでPBR関数*********************************************************************/
 
 static const float3 ligPos = float3(0.0f, 1000.0f, -500.0f);
@@ -187,8 +186,6 @@ float4 PSMain( PSInput In ) : SV_Target0
     worldPos = mul(viewProjInverseMatrix, worldPos);
     worldPos.xyz /= worldPos.w;
     worldPos.w = 1.0f;
-    
-
     
     //物体から目へのベクトル
     float3 toEye = abs(eyePos - worldPos.xyz);
@@ -256,11 +253,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     float3 lambertDiffuse = (directionalLight.color * NdotL) / PI;
 	//最終的に適用する拡散反射光を計算
     float3 diffuse = albedoColor.xyz * diffuseFromFresnel * lambertDiffuse;
-    
-    //float4 a = 1.0f;
-    //a.xyz = diffuseFromFresnel;
-    //return a;
-    
+   
     //反射の具合を取得
     float specPower = normalTexture.Sample(Sampler, In.uv).w;
     //反射光の取得
@@ -331,56 +324,81 @@ float4 PSMain( PSInput In ) : SV_Target0
  //   finalColor.xyz *= lig;
    // finalColor.xyz += ambientLight;
     //return finalColor;
+
     
-    
-    
-    
-    
-    
-    //ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
+    //ここからシャドウの作成///////////////////////////////////////////////////////////////////////////
 	//ライトビュースクリーン空間からUV空間に座標変換。
-    
     float4 lvp = mul(LVP, worldPos);
-    lvp.z = length(worldPos.xyz - ligPos) / 2000.0f;
+    //lvp.z = length(worldPos.xyz - ligPos) / 2000.0f;
+    float zInLVP = lvp.z / lvp.w;
+    
+    float shadow = 0.0f;
+    
     
     float2 shadowMapUV = lvp.xy / lvp.w;
     shadowMapUV *= float2(0.5f, -0.5f);
     shadowMapUV += 0.5f;
-   
 	//ライトビュースクリーン空間でのZ値を計算する
-    float zInLVP = lvp.z /*/ lvp.w*/;
-
     if (shadowMapUV.x > 0.0f
 		&& shadowMapUV.x < 1.0f
 		&& shadowMapUV.y > 0.0f
 		&& shadowMapUV.y < 1.0f)
     {
-		////シャドウマップに描き込まれているZ値と比較する
-  //      float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
-		////シャドウアクネ解決のため実数値で補正、調整
-  //      if (zInLVP > zInShadowMap + 0.00007f)
-  //      {
-  //          finalColor.xyz *= 0.5f;
-  //      }
-        float2 shadowValue = shadowMap.Sample(Sampler, shadowMapUV).xy;
-        
-        if (zInLVP > shadowValue.r && zInLVP <= 1.0f)
+        //デプスシャドウのみ///////////////////////
+        //シャドウマップに描き込まれているZ値と比較する
+
+        float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
+		//シャドウアクネ解決のため実数値で補正、調整
+        if (zInLVP > zInShadowMap + 0.00007f)
         {
-            float depth_sq = shadowValue.x * shadowValue.x;
-            
-            float varience = min(max(shadowValue.y - depth_sq, 0.0001f), 1.0f);
-            
-            float md = zInLVP - shadowValue.x;
-            
-            float lit_factor = varience / (varience + md * md);
-            
-            float3 shadowColor = finalColor.xyz * 0.5f;
-            
-            finalColor.xyz = lerp(shadowColor, finalColor.xyz, lit_factor);
+            finalColor.xyz *= 0.5f;
         }
+        ///////////////////////////////////////////////////
+        
+        //以下VSM///////////////////////
+        //float2 shadowValue = shadowMap.Sample(Sampler, shadowMapUV).xy;
+        
+        //if (zInLVP > shadowValue.r && zInLVP <= 1.0f)
+        //{
+        //    float depth_sq = shadowValue.x * shadowValue.x;
+            
+        //    float varience = min(max(shadowValue.y - depth_sq, 0.0001f), 1.0f);
+            
+        //    float md = zInLVP - shadowValue.x;
+        
+        //    float lit_factor = varience / (varience + md * md);
+        //    //lit_factor =  clamp((lit_factor - 0.5f) / (1.0f - 0.5f), 0.0, 1.0);
+            
+        //    //float lit_factor = min(0.2f, varience / (varience + md * md));
+            
+        //    float3 shadowColor = finalColor.xyz * 0.5f;
+            
+        //    finalColor.xyz = lerp(shadowColor, finalColor.xyz, lit_factor);
+        //}
+        ///////////////////////
+        
+        //以下EVSM
+
+      //  float4 shadowValue = shadowMap.Sample(Sampler, shadowMapUV);
+      //  zInLVP -= 0.0001f;
+      ////  zInLVP = exp(INFINITY * zInLVP);
+      //  if (zInLVP >= shadowValue.x)
+      //  {
+      //      // 影が落ちる。
+      //      /* float depth_sq = shadowValue.x * shadowValue.x;
+      //      float varience = shadowValue.y - depth_sq;
+      //      float md = pos - shadowValue.x;
+      //      float lit_factor = varience / (varience + md * md);
+      //      float lig_factor_min = 0.1f;
+      //      lit_factor = saturate((lit_factor - lig_factor_min) / (1.0f - lig_factor_min));
+        
+      //      shadow = 1.0f - lit_factor;*/
+      //      shadow = 1.0f;
+      //  }
     }
 
     float4 returnColor = finalColor + finalSpotLight;
+    //returnColor *= (1.0f - shadow);
     return returnColor;
 	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
 }

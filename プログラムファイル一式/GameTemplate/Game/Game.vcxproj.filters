@@ -334,6 +334,7 @@
       <Filter>AboutRendering\ForwardRendering</Filter>
     </ClCompile>
     <ClCompile Include="GuzaiGrab.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -695,6 +696,7 @@
       <Filter>AboutRendering\ForwardRendering</Filter>
     </ClInclude>
     <ClInclude Include="GuzaiGrab.h" />
+    <ClInclude Include="RenderingEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

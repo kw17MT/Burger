@@ -34,6 +34,7 @@ namespace
 	const int GUZAIOKIBA_MAX_NUM = 8;
 	const float MOVESPEED = 130.0f;
 	const float ADJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
+	const float ADJUST_GRAB_HEIGHT = 80.0f;
 	const float ADJUST_HEIGHT = 40.0f;
 	const float ADJUST_HEIGHT_ON_KITCHEN = 100.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_GUZAI = 100.0f;
@@ -184,7 +185,7 @@ void Guzai::Grab()
 			Vector3 pl00MSpeed = m_player00->GetNormalMoveSpeed();
 			pl00MSpeed *= ADJUST_SPEED_TO_FOLLOW_PLAYER;
 			plPos00 += pl00MSpeed;
-			plPos00.y += ADJUST_HEIGHT;
+			plPos00.y += ADJUST_GRAB_HEIGHT;
 			SetPosition(plPos00);
 			//Ž‚Á‚Ä‚¢‚éÅ’†A‚»‚Ì‹ïÞ‚ðŠg‘å•\Ž¦‚µ‚½‚­‚È‚¢‚½‚ßB
 			m_isTargeted = false;
@@ -193,7 +194,7 @@ void Guzai::Grab()
 			Vector3 pl01MSpeed = m_player01->GetNormalMoveSpeed();
 			pl01MSpeed *= ADJUST_SPEED_TO_FOLLOW_PLAYER;
 			plPos01 += pl01MSpeed;
-			plPos01.y += ADJUST_HEIGHT;
+			plPos01.y += ADJUST_GRAB_HEIGHT;
 			SetPosition(plPos01);
 			m_isTargeted = false;
 		}

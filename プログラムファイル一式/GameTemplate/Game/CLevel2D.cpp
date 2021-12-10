@@ -199,7 +199,7 @@ void CLevel2D::Update()
 
 void CLevel2D::Render(RenderContext& rc)
 {
-	if (GameObjectManager::GetInstance()->GetRenderTypes() == 0)
+	if (RenderingEngine::GetInstance().GetRenderTypes() == 0)
 	{
 		m_level2D.Draw(rc);
 	}

@@ -67,10 +67,14 @@ static const float INFINITY = 40.0f;
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
-	//デプスシャドウ描画用
-	return float4(psIn.depth.x, psIn.depth.y, 0.0f, 1.0f);
+	//デプスシャドウ
+    return float4(psIn.pos.z, psIn.pos.z, psIn.pos.z, 1.0f);
+	
+	//分散シャドウ描画用
+	//return float4(psIn.depth.x, psIn.depth.y, 0.0f, 1.0f);
 	
 	//以下EVSM？
     //float pos = exp(INFINITY * psIn.pos.z);
-   // return float4(pos, pos * pos, 0.0f, 1.0f);
+    //return float4(pos, pos * pos, 0.0f, 1.0f);
+    //return float4(psIn.pos.z, psIn.pos.z * psIn.pos.z, 0.0f, 1.0f);
 }

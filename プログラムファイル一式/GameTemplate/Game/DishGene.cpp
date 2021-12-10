@@ -4,6 +4,8 @@
 #include "Dish.h"
 #include "SoundSource.h"
 
+#include "FontRender.h"
+
 #include <string>
 
 namespace
@@ -39,6 +41,21 @@ bool DishGene::Start()
 			if (wcslen(objectData.name) == NAME_SIZE_HITOKETA) {
 				//”š•”•ª‚Ì¶‚©‚ç1”Ô–Ú‚ğ‚Æ‚Á‚Ä‚«‚ÄAM‚Ì”Ô†‚Éİ’è‚·‚éB
 				dishNumber = _wtoi(&objectData.name[LETTER_FIRST_FROM_LEFT]);
+				/*if (dishNumber != 1 && dishNumber != 36)
+				{
+					return true;
+				}*/
+
+#ifdef DEBUG
+				FontRender* test;
+				test = NewGO<FontRender>(0);
+				test->SetText(objectData.name);
+				Vector2 pos;
+				g_camera3D->CalcScreenPositionFromWorldPosition(pos, objectData.Pos);
+				test->SetScale(0.3f);
+				test->SetPosition(pos);
+#endif
+
 				DishData dishdata;
 				dishdata.s_dishPosition = objectData.Pos;
 				dishdata.s_number = dishNumber;
@@ -59,9 +76,23 @@ bool DishGene::Start()
 				str10 = str10 + str1;
 				//M‚Ì”Ô†‚Éİ’è‚µ‚Ä‚â‚é
 				dishNumber = atoi(str10.c_str());
+				/*if (dishNumber != 1 && dishNumber != 36)
+				{
+					return true;
+				}*/
 				DishData dishdata;
 				dishdata.s_dishPosition = objectData.Pos;
 				dishdata.s_number = dishNumber;
+
+#ifdef DEBUG
+				FontRender* test;
+				test = NewGO<FontRender>(0);
+				test->SetText(objectData.name);
+				Vector2 pos;
+				g_camera3D->CalcScreenPositionFromWorldPosition(pos, objectData.Pos);
+				test->SetScale(0.3f);
+				test->SetPosition(pos);
+#endif
 
 				m_dishData[dishNumber - 1] = dishdata;
 			}

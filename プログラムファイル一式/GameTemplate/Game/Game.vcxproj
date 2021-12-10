@@ -337,6 +337,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerGene.cpp" />
     <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
@@ -467,6 +468,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerGene.h" />
     <ClInclude Include="PostEffect.h" />
+    <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="SkinModelRender.h" />
