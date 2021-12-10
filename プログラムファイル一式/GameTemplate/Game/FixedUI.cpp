@@ -95,12 +95,14 @@ void FixedUI::RemainingTimeColor()
 {
 	if (m_remainingTime < TEN) {
 		//最初10フレームは赤色にする
-		if (m_timer < TEN) {
+		if (m_prevRemainingTime != (int)m_remainingTime) 
+		{
 			m_time->SetScale(SCALE_BIGGER);
 			m_time->SetColor(MAKE_RED);
 		}
 		//10フレーム後になれば赤色以外を少しずつ足して白色にする。
-		if (m_timer >= TEN) {
+		else
+		{
 			m_time->AddColorPoint(LITTLE_COLOR_EXCEPT_RED);
 			m_time->AddFontScale(REDUCE_SCALE);
 		}
@@ -121,9 +123,11 @@ void FixedUI::Update()
 	//TODO ゲーム内の時間を計ってる。
 	float gameTime = GameTime().GetFrameDeltaTime();
 
+	m_prevRemainingTime = (int)m_remainingTime;
 	m_remainingTime -= gameTime / 2.0f;
-	//残り時間が10秒未満の時
-	if (m_remainingTime < TEN) {
+	//残り時間が10秒未満で、1秒ごとに音を鳴らす
+	if (m_remainingTime < TEN
+		&& m_prevRemainingTime != (int)m_remainingTime) {
 		//音を出す。
 		m_timeSound = NewGO<CSoundSource>(0);
 		m_timeSound->Init(L"Assets/sound/Time.wav", false);

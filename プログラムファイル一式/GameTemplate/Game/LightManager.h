@@ -1,4 +1,5 @@
 #pragma once
+#include "RenderingEngine.h"
 
 struct DirectionalLight
 {
@@ -6,7 +7,7 @@ struct DirectionalLight
 	//ディレクションライト
 	Vector3 directionalDirection = { 0.0f,-1.0f,0.0f };				//ディレクションライトの方向
 	float pad0 = 0;
-	Vector3 directionalColor = { 10.0f, 10.0f, 10.0f };				//ディレクションライトの色
+	Vector3 directionalColor = { 20.0f, 20.0f, 20.0f };				//ディレクションライトの色
 	//Vector3 directionalColor = { 1.0f, 1.0f, 1.0f };
 	float pad1 = 0;
 	Vector3 eyePos = g_camera3D->GetPosition();						//目の位置（カメラの位置）
@@ -26,7 +27,7 @@ struct SpotLight
 
 struct AllLight
 {
-	Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
+	Matrix s_lightCameraMatrix = RenderingEngine::GetInstance().GetLightCamera().GetViewProjectionMatrix();
 	Matrix ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
 	//ディレクションライト
 	DirectionalLight directionalLight;

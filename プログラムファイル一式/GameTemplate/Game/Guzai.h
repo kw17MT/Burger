@@ -31,8 +31,8 @@ private:
 	int m_myNo = 100;									//自分の番号
 	const int m_cookingTime = 60;						//調理にかかる時間。
 	const int m_holdTime = 10;							//一度ターゲッティングしたものをある程度見つめるための時間。
-	const int m_targetRangeNear = 100;					//ターゲットする最短距離。
-	const int m_targetRangeFar = 110;					//ターゲッティングを切り始める距離。（実際はディレイがあるため消えるのはもうちょっと先になる）
+	const int m_targetRangeNear = 140;					//ターゲットする最短距離。
+	const int m_targetRangeFar = 150;					//ターゲッティングを切り始める距離。（実際はディレイがあるため消えるのはもうちょっと先になる）
 	const static int m_maxGuzaiTypeNum = 7;
 	const static int m_maxFilePathSize = 256;
 	float m_guzai2Pl00 = 0.0f;							//具材からプレイヤー1への距離

@@ -13,7 +13,7 @@ class Dish : public IGameObject
 private:
 	Vector3 m_position = Vector3::Zero;					//皿の位置
 	Vector3 m_guzaiPos = Vector3::Zero;					//上に乗っける具材の位置
-	Vector3 m_scale = Vector3::One;						//皿の拡大情報
+	Vector3 m_scale = Vector3::One * 5.0f;						//皿の拡大情報
 
 	bool m_isHavingGuzai = false;						//自分（この皿）は具材を乗せているか。
 	const int m_maxNum2Refill = 5;						//補充を開始する最大値		２はTo

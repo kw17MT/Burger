@@ -6,33 +6,6 @@ SkinModelRender::~SkinModelRender()
 	DeleteGO(this);
 }
 
-//モデルを通常描画するための初期化
-void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
-{
-	//モデルのファイルパス設定
-	m_modelInitData.m_tkmFilePath = modelFilePath;
-	//モデルが使用するシェーダー（下はPBRのみ）
-	m_modelInitData.m_fxFilePath = "Assets/shader/model.fx";
-	//頂点シェーダー設定
-	m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
-	//使う色の範囲設定
-	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	//どの軸を上にするか
-	m_modelInitData.m_modelUpAxis = UpAxis;
-	
-	m_modelInitData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
-	m_modelInitData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
-
-	//モデルのスケルトンがあるなら
-	if (skeletonPath != nullptr) {
-		m_skeleton.Init(skeletonPath);
-		m_modelInitData.m_skeleton = &m_skeleton;
-	}
-
-	m_model.Init(m_modelInitData);
-}
-
 //ゲージのモデルの初期化
 void SkinModelRender::InitAsGauge(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, int gaugeNumber)
 {
@@ -118,11 +91,8 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	//シャドウマップのテクスチャ、ライトカメラのビュープロ行列の取得
-	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
-
-	m_modelInitData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();//&s_dataCopyToVRAM;
-	m_modelInitData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData()/*s_dataCopyToVRAM*/);
+	m_modelInitData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
 	
 
 	if (skeletonPath != nullptr) {
@@ -138,17 +108,14 @@ void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeleto
 {
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 
-	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/shadowRecieverForFloor.fx";
 	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
 
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
-
-	m_modelInitData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();/*s_dataCopyToVRAM*/
-	m_modelInitData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData()/*s_dataCopyToVRAM*/);
+	m_modelInitData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
 
 
 	if (skeletonPath != nullptr) {
@@ -167,7 +134,6 @@ void SkinModelRender::ChangeModel(const char* newModelFilePath)
 	}
 }
 
-
 //void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
 //{
 //	m_animationClip = animationClip;
@@ -182,13 +148,11 @@ void SkinModelRender::ChangeModel(const char* newModelFilePath)
 
 void SkinModelRender::Update()
 {
-
-
 	//m_animation.Progress(GameTime().GetFrameDeltaTime());
-	
+	//モデルを更新
 	m_model.UpdateWorldMatrix(m_position, m_rot, m_scale);
+	//シャドウキャスターモデルを更新
 	m_shadow.UpdateWorldMatrix(m_position, m_rot, m_scale);
-
-	//スケルトンを更新。
+	//スケルトンを更新
 	m_skeleton.Update(m_model.GetWorldMatrix());
 }

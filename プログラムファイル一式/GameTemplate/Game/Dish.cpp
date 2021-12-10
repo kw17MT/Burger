@@ -45,9 +45,9 @@ bool Dish::Start()
 	//皿のモデル初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0,"dish");
 	//シャドウレシーバーのオブジェクトを初期化
-	m_skinModelRender->Init/*ForRecieveShadow*/("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitForRecieveShadow("Assets/modelData/dish/dish2.tkm", nullptr, enModelUpAxisZ, m_position);
 	//シャドウキャスターのオブジェクトを初期化
-	m_skinModelRender->InitForCastShadow("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/dish/dish2.tkm", nullptr, enModelUpAxisZ, m_position);
 	//プレイヤー生成器のオブジェクトを取得
 	m_playerGene = FindGO<PlayerGene>("playerGene");
 	//皿生成器のオブジェクトを取得
@@ -124,6 +124,11 @@ void Dish::ShouldRefill()
 {
 	//補充するように命令されたか
 	if (GuzaiManager::GetInstance().IsOrderedRefill()) {
+		if (!m_isHavingGuzai)
+		{
+			m_guzaiYPos = DROP_POS_TOP;
+		}
+
 		//発生するまでの遅延を発生させる
 		m_guzaiTimer++;
 		if (m_guzaiTimer > GUZAI_POP_DELAY) {

@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Title.h"
 #include "effect/Effect.h"
+#include "RenderingEngine.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -20,6 +21,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//サウンドを鳴らす用のインスタンス
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
+	//レンダリングエンジン作成
+	RenderingEngine::CreateInstance();
+	RenderingEngine::GetInstance().PrepareRender();
 
 	//エフェクトを出すインスタンス
 	EffectEngine::CreateInstance();
@@ -50,6 +54,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		//オブジェクトのドローを行う
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+
+		RenderingEngine::GetInstance().Render(renderContext);
 
 		//スピンロックを行う。
 		int restTime = 0;

@@ -30,15 +30,14 @@ void PathMove::Init(const Vector3& pos, const float move, EnLane enLane)
 
 void PathMove::SwitchCycleDirection()
 {
-	//‚±‚±‚ÅŠª‚«–ß‚éƒoƒO‚ª‚ ‚é‚ÆŽv‚¤
-	//‹t“]•ûŒü‚É•Ï‚¦‚é
+	//’Êí•ûŒü¨‹t“]•ûŒü‚É•Ï‚¦‚é
 	if (m_cycleDirection == enNormal) {
 		m_cycleDirection = enReverse;
 		//m_point‚ÍŽŸ‚Ì–Ú“I’n‚ÌƒEƒFƒCƒ|ƒCƒ“ƒg”Ô†‚Å‚ ‚é‚©‚çAŠª‚«–ß‚é‚É‚Í2ƒ}ƒCƒiƒX‚·‚é
 		m_point = m_path->GetPoint(m_point->s_number - 2);
 		//ƒEƒFƒCƒ|ƒCƒ“ƒg”Ô†‚Í1~36‚Ì36ŒÂ
 		if (m_point->s_number <= 0) {
-			m_point = m_path->GetPoint(m_wayPointNum-1);
+			m_point = m_path->GetPoint(m_wayPointNum - 1);
 		}
 		Vector3 nextDistance = m_point->s_vector - m_position;
 		nextDistance.Normalize();
@@ -46,7 +45,7 @@ void PathMove::SwitchCycleDirection()
 
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);
-		se->SetVolume(2.0f);
+		se->SetVolume(0.1f);
 		se->Play(false);
 	}
 	else {
@@ -58,8 +57,6 @@ void PathMove::SwitchCycleDirection()
 		Vector3 nextDistance = m_point->s_vector - m_position;
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
-
-		
 
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);
@@ -110,57 +107,71 @@ void PathMove::SwitchCycleSpriteDirection()
 
 const Vector3& PathMove::Move()
 {
+	if (m_enMoveState == enStart) {
+		m_moveVector = m_point->s_vector - m_position;
+		m_moveVector.Normalize();
+		m_enMoveState = enMove;
+		return m_position;
+	}
 
-		if (m_enMoveState == enStart) {
-			m_moveVector = m_point->s_vector - m_position;
-			m_moveVector.Normalize();
-			m_enMoveState = enMove;
-			return m_position;
+	//ŽM‚Ì—¬‚ê‚éŒü‚«‚ð•Ï‚¦‚ë‚ÆŒ¾‚í‚ê‚½‚ç
+	if (DishManager::GetInstance().GetIsOrderedDirection()) {
+		//Œü‚«‚ð•Ï‚¦‚éB
+		SwitchCycleDirection();
+		//Œü‚«‚ð•Ï‚¦‚½‰ñ”‚ð‹L˜^‚·‚éi{‚P‚·‚éj
+		DishManager::GetInstance().AddCompletedChangeDirectionNum();
+
+		//Œü‚«‚ð•Ï‚¦‚½‰ñ”‚ªŽM‚Ì‘”‚Æˆê’v‚µ‚½‚È‚ç‚Î
+		if (DishManager::GetInstance().JudgeChangedAllDirection()) {
+			//‰æ‘œ‚ÌŒü‚«‚¾‚¯‚ð•Ï‚¦‚éB
+			SwitchCycleSpriteDirection();
+			//‘S•”ˆê’v‚µ‚½‚Ì‚ÅAŒü‚«‚ð•Ï‚¦‚é–½—ß‚ðŽ~‚ß‚é
+			DishManager::GetInstance().SetOrderChangeDirection(false);
+			DishManager::GetInstance().ResetCompletedChangeDirectionNum();
 		}
+	}
 
-		//ŽM‚Ì—¬‚ê‚éŒü‚«‚ð•Ï‚¦‚ë‚ÆŒ¾‚í‚ê‚½‚ç
-		if (DishManager::GetInstance().GetIsOrderedDirection()) {
-			//Œü‚«‚ð•Ï‚¦‚éB
-			SwitchCycleDirection();
-			//Œü‚«‚ð•Ï‚¦‚½‰ñ”‚ð‹L˜^‚·‚éi{‚P‚·‚éj
-			DishManager::GetInstance().AddCompletedChangeDirectionNum();
-
-			//Œü‚«‚ð•Ï‚¦‚½‰ñ”‚ªŽM‚Ì‘”‚Æˆê’v‚µ‚½‚È‚ç‚Î
-			if (DishManager::GetInstance().JudgeChangedAllDirection()) {
-				//‰æ‘œ‚ÌŒü‚«‚¾‚¯‚ð•Ï‚¦‚éB
-				SwitchCycleSpriteDirection();
-				//‘S•”ˆê’v‚µ‚½‚Ì‚ÅAŒü‚«‚ð•Ï‚¦‚é–½—ß‚ðŽ~‚ß‚é
-				DishManager::GetInstance().SetOrderChangeDirection(false);
-				DishManager::GetInstance().ResetCompletedChangeDirectionNum();
+	//À•W‚Ì”z—ñ‚Í‚O|‚R‚T
+	//‚“Nuumber‚Í‚P|‚R‚U
+	//getpointŠÖ”‚Ìˆø”‚Í‚O`‘Î‰ž
+	Vector3 distance = m_point->s_vector - m_position;
+	if (distance.LengthSq() <= DISTANCE) {
+		//ŽŸ‚ÌƒpƒX‚ÉŒü‚¯‚Ä‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ð‹‚ß‚é
+		if (m_cycleDirection == enNormal) {
+			/*if (m_point->s_number <= 0) {
+				m_point = m_path->GetPoint(1);
 			}
-		}
-		
-		Vector3 distance = m_point->s_vector - m_position;
-		if (distance.LengthSq() <= DISTANCE) {
-			//ŽŸ‚ÌƒpƒX‚ÉŒü‚¯‚Ä‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ð‹‚ß‚é
-			if (m_cycleDirection == enNormal) {
+			else
+			{
 				m_point = m_path->GetPoint(m_point->s_number);
-				if (m_point->s_number <= 0) {
-					m_point = m_path->GetPoint(1);
-				}
-				Vector3 nextDistance = m_point->s_vector - m_position;
-				nextDistance.Normalize();
-				m_moveVector = nextDistance;
+			}*/
+			m_point = m_path->GetPoint(m_point->s_number);
+			if (m_point->s_number <= 0) {
+				m_point = m_path->GetPoint(0);
 			}
-			//‚±‚±‚Å‹ïÞ‚Ì—¬‚ê‚ð”½“]‚³‚¹‚é
-			else if (m_cycleDirection == enReverse) {
-				m_point = m_path->GetPoint(m_point->s_number - 2);
-				if (m_point->s_number <= 0) {
-					m_point = m_path->GetPoint(m_wayPointNum - 1);
-				}
-				Vector3 nextDistance = m_point->s_vector - m_position;
-				nextDistance.Normalize();
-				m_moveVector = nextDistance;
-			}
+			Vector3 nextDistance = m_point->s_vector - m_position;
+			nextDistance.Normalize();
+			m_moveVector = nextDistance;
 		}
-
-	//TODO GameTime‚É•Ï‚¦‚éB
-		float gameTime = GameTime().GetFrameDeltaTime();
+		//‹t•ûŒüŽž‚ÌˆÚ“®•ûŒü‚ðŒvŽZ‚·‚é
+		else if (m_cycleDirection == enReverse) {
+			/*if (m_point->s_number >= 2)
+			{
+				m_point = m_path->GetPoint(m_point->s_number - 2);
+			}
+			else if (m_point->s_number <= 1) {
+				m_point = m_path->GetPoint(m_wayPointNum - 1);
+			}*/
+			m_point = m_path->GetPoint(m_point->s_number - 2);
+			if (m_point->s_number <= 0) {
+				m_point = m_path->GetPoint(m_wayPointNum - 1);
+			}
+			Vector3 nextDistance = m_point->s_vector - m_position;
+			nextDistance.Normalize();
+			m_moveVector = nextDistance;
+		}
+	}
+	float gameTime = GameTime().GetFrameDeltaTime();
 
 	m_position += m_moveVector * gameTime * m_moveSpeed;
 	return m_position;

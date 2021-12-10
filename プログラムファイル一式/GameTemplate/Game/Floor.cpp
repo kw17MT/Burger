@@ -13,7 +13,7 @@ bool Floor::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//赤色の床を出すならば
 	if (m_isRed) {
-		m_skinModelRender->InitAsFloor("Assets/modelData/floor/floor_red.tkm", nullptr, enModelUpAxisZ, m_position);
+		m_skinModelRender->InitForRecieveShadow("Assets/modelData/floor/floor_red.tkm", nullptr, enModelUpAxisZ, m_position);
 	}
 	//青色の床を出すならば
 	else {
