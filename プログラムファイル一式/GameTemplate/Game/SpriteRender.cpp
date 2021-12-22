@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SpriteRender.h"
 
-void SpriteRender::Init(const char* name, int width, int height)
+void SpriteRender::Init(const char* name, int width, int height, const char* ps)
 {
 	SpriteInitData spdata;
 	//画像のファイルパス名を設定
@@ -16,6 +16,10 @@ void SpriteRender::Init(const char* name, int width, int height)
 	spdata.m_height = height;
 	//アルファブレンディングモードを有効化
 	spdata.m_alphaBlendMode = AlphaBlendMode_Trans; 
+
+	spdata.m_expandConstantBuffer = &m_alpha;
+	spdata.m_expandConstantBufferSize = sizeof(m_alpha);
+	spdata.m_psEntryPoinFunc = ps;
 
 	m_sprite.Init(spdata);
 }

@@ -29,7 +29,7 @@
 #include <random>
 #include "Conveyor.h"
 #include "LightManager.h"
-
+#include "ToTitleSprite.h"
 
 namespace
 {
@@ -116,6 +116,7 @@ Game::~Game()
 	DeleteGO(m_level);
 	DeleteGO(m_conveyor);
 	DeleteGO(ui);
+	DeleteGO(m_toTitle);
 }
 
 bool Game::Start()
@@ -286,7 +287,6 @@ void Game::DoWhenTimeUp()
 {
 	//結果の表示
 	if (ui->GetIsTimeUp() == true && GetTimeUp() == false) {
-
 		//引き分けのとき(ResultP1 = 0,ResultP2 = 0のとき)、1枚だけ表示
 		if (m_score->ResultP1 == m_score->ResultP2) {
 			m_result[RESULT_DRAW] = NewGO<Result>(1, "result");
@@ -320,6 +320,10 @@ void Game::DoWhenTimeUp()
 			}
 
 		}
+
+		//Aボタンを押すとタイトルへ戻るように誘導する画像
+		m_toTitle = NewGO<ToTitleSprite>(0);
+
 		//game内のタイムアップフラグを立て、ゲームシーンをリザルトに移行する
 		SetTimeUp();
 
@@ -343,11 +347,6 @@ void Game::Update()
 			NewGO<Title>(0, "title");
 			DeleteGO(this);
 		}
-	}
-
-	if (g_pad[0]->IsTrigger(enButtonStart))
-	{
-		DishManager::GetInstance().SetOrderChangeDirection(true);
 	}
 
 	//目線の位置の更新

@@ -335,6 +335,7 @@
     </ClCompile>
     <ClCompile Include="GuzaiGrab.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="ToTitleSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -697,6 +698,7 @@
     </ClInclude>
     <ClInclude Include="GuzaiGrab.h" />
     <ClInclude Include="RenderingEngine.h" />
+    <ClInclude Include="ToTitleSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

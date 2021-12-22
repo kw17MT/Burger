@@ -357,6 +357,7 @@
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="TklFile.cpp" />
+    <ClCompile Include="ToTitleSprite.cpp" />
     <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="TResourceBank.cpp" />
     <ClCompile Include="Util.cpp" />
@@ -481,6 +482,7 @@
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="TklFile.h" />
+    <ClInclude Include="ToTitleSprite.h" />
     <ClInclude Include="TrashCan.h" />
     <ClInclude Include="TResourceBank.h" />
     <ClInclude Include="Util.h" />

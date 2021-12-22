@@ -6,6 +6,12 @@ cbuffer cb : register(b0){
 	float4x4 mvp;		//���[���h�r���[�v���W�F�N�V�����s��B
 	float4 mulColor;	//��Z�J���[�B
 };
+
+cbuffer cb1 : register(b1)
+{
+    float alpha;
+}
+
 struct VSInput{
 	float4 pos : POSITION;
 	float2 uv  : TEXCOORD0;
@@ -29,4 +35,17 @@ PSInput VSMain(VSInput In)
 float4 PSMain( PSInput In ) : SV_Target0
 {
 	return colorTexture.Sample(Sampler, In.uv) * mulColor;
+}
+
+float4 ReturnTitle(PSInput In) : SV_Target0
+{
+	float4 finalColor = colorTexture.Sample(Sampler, In.uv) * mulColor;
+	if(finalColor.a == 0.0f)
+    {
+        clip(-1.0f);
+
+    }
+    finalColor.a = alpha;
+	
+    return finalColor;
 }

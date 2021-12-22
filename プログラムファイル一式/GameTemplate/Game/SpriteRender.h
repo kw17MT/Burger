@@ -13,6 +13,8 @@ private:
 		enRenderNormal
 	};
 
+	float m_alpha = 1.0f;
+
 public:
 	SpriteRender() {};
 
@@ -27,7 +29,9 @@ public:
 	 * @param width ‰¡•
 	 * @param height c•
 	*/
-	void Init(const char* name, int width, int height);
+	void Init(const char* name, int width, int height, const char* ps = "PSMain");
+
+	void SetAlphaInShader(float alpha) { m_alpha = alpha; }
 
 	/**
 	 * @brief V‚µ‚¢ˆÊ’u‚Ìİ’è

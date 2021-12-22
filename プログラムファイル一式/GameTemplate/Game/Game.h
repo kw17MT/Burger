@@ -23,6 +23,7 @@ class Ground;
 class CycleDirection;
 class Conveyor;
 class CountDown;
+class ToTitleSprite;
 
 #include "PathFactory.h"
 
@@ -73,4 +74,5 @@ private:
 	Level* m_level = nullptr;
 	CountDown* m_countDown = nullptr;								//カウントダウン
 	Conveyor* m_conveyor = nullptr;
+	ToTitleSprite* m_toTitle = nullptr;
 };
