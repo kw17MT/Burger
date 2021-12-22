@@ -40,6 +40,7 @@ private:
 	float m_kit2Pl00 = 0.0f;							//キッチンからプレイヤー1への距離
 	float m_kit2Pl01 = 0.0f;							//キッチンからプレイヤー2への距離
 	float m_angle = 0.0f;								//回転の際の角度
+	float m_adjustCutPos;
 	bool m_isTargeted = false;							//ターゲティングされた具材を設定するよう。
 	bool m_guzaiOkibaSet = false;						//自身が具材置き場にセットされているか？
 	bool m_isCooked = false;							//自身が調理されているか？

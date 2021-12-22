@@ -83,8 +83,8 @@ void PathMove::SwitchCycleSpriteDirection()
 		m_directSprite[RIGHT_CYCLE_SPRITE]->SetSide(Right);							//‰E
 
 		m_directSprite[FIXED_CYCLE_SPRITE] = FindGO<CycleDirection>("dirspfixed");	//ŒÅ’è•\Ž¦
-		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteForward();				//³“]
 		m_directSprite[FIXED_CYCLE_SPRITE]->SetDirection(FixedReverse);
+		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteForward();				//³“]
 	}
 	else {
 		m_cycleDirection = enNormal;
@@ -100,8 +100,8 @@ void PathMove::SwitchCycleSpriteDirection()
 		m_directSprite[RIGHT_CYCLE_SPRITE]->SetSide(Right);							//‰E
 
 		m_directSprite[FIXED_CYCLE_SPRITE] = FindGO<CycleDirection>("dirspfixed");	//ŒÅ’è•\Ž¦
-		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteReverse();
 		m_directSprite[FIXED_CYCLE_SPRITE]->SetDirection(FixedForward);
+		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteReverse();
 	}
 }
 

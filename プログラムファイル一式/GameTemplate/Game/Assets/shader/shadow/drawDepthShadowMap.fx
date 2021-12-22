@@ -67,6 +67,8 @@ static const float INFINITY = 40.0f;
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
+    //return float4(psIn.pos.z, psIn.pos.z, psIn.pos.z, 1.0f);
+	
 	//分散シャドウマップに利用する深度値
     return float4(psIn.depth, psIn.depth * psIn.depth, 0.0f, 1.0f);
 }

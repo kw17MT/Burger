@@ -27,6 +27,7 @@ private:
 	
 	bool m_targetingState = false;									//今、具材をターゲットしているか。1個以上ターゲティングしないように。
 	bool m_moveStop = false;										//停止フラグ１
+	bool m_isCooking = false;
 
 	AnimationClip m_animationClip[1];
 
@@ -131,6 +132,9 @@ public:
 	*/
 	const int* GetPlayerStackedGuzais() const { return m_guzaiNo; }
 
+	bool GetIsPlayerCooking() { return m_isCooking; }
+	void SetIsCooking(bool isCooking) { m_isCooking = isCooking; }
+
 	/**
 	 * @brief 移動不可を設定
 	 * @param m_moveStop TRUE＝移動できない　FALSE＝移動できる
@@ -179,5 +183,3 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデル
 	Effect* m_effect = nullptr;							//エフェクト
 };
-
-

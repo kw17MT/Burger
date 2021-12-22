@@ -19,8 +19,8 @@ namespace
 	const int MAX_NUM_TO_STACK_GUZAI = 10;
 	const int STACK_EMPTY = 9;
 	const int PLAYER_1_RESTRECTED_POS_X_MIN = 950;
-	const int PLAYER_2_RESTRECTED_POS_X_MIN = -1300;
-	const int PLAYER_1_RESTRECTED_POS_X_MAX = 1300;
+	const int PLAYER_2_RESTRECTED_POS_X_MIN = -1250;
+	const int PLAYER_1_RESTRECTED_POS_X_MAX = 1250;
 	const int PLAYER_2_RESTRECTED_POS_X_MAX = -950;
 	const int PLAYER_RESTRECTED_POS_Z_MIN = -530;
 	const int PLAYER_RESTRECTED_POS_Z_MAX = 190;
@@ -61,15 +61,15 @@ bool Player::Start()
 	else {
 		//通常描画用青色シェフモデル
 		m_skinModelRender->InitForRecieveShadow(
-			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
-			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+			"Assets/modelData/Chef/ChefBlue/chef.tkm",
+			"Assets/modelData/Chef/ChefBlue/chef.tks",
 			enModelUpAxisZ,
 			m_position
 		);
 		//影描画用
 		m_skinModelRender->InitForCastShadow(
-			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
-			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+			"Assets/modelData/Chef/ChefBlue/chef.tkm",
+			"Assets/modelData/Chef/ChefBlue/chef.tks",
 			enModelUpAxisZ,
 			m_position
 		);
@@ -202,7 +202,8 @@ void Player::PopWalkingEffect()
 	//エフェクト再生
 	//移動中なら定期的に発生
 	m_moveCounter++;
-	if (m_moveSpeed.x != 0) {
+	if (m_moveSpeed.x != 0
+		|| m_moveSpeed.z != 0 ) {
 		if (m_moveCounter % EFFECT_POP_RATE == EFFECT_POP) {
 			m_effect->SetPosition(m_position);
 			m_effect->Play(0);

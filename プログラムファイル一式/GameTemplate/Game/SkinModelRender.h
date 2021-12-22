@@ -124,14 +124,14 @@ public:
 	 * @param animation アニメーション
 	 * @param animationNum アニメーションの数
 	*/
-	//void InitAnimation(AnimationClip* animation, int animationNum);
+	void InitAnimation(AnimationClip* animation, int animationNum);
 
 	/**
 	 * @brief アニメーションを再生する
 	 * @param animNo アニメーションの数
 	 * @param interpolateTime 流れる時間
 	*/
-	//void PlayAnimation(int animNo, float interpolateTime = 0.0f);
+	void PlayAnimation(int animNo, float interpolateTime = 0.0f);
 
 	/**
 	 * @brief ブラーを適応するか
@@ -165,7 +165,7 @@ public:
 
 private:
 	//アニメーションを付ける際に使う
-	//Animation m_animation;
-	//AnimationClip* m_animationClip = nullptr;
+	Animation m_animation;
+	AnimationClip* m_animationClip = nullptr;
 };
 

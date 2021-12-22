@@ -27,7 +27,7 @@ namespace
 	const int GUZAIOKIBA_NUMBER_FOUR = 4;
 	const int HAVE_GUZAI = 1;
 
-	const float CAN_TARGET_DISTANCE = 100.0f;
+	const float CAN_TARGET_DISTANCE = 150.0f;
 	const float CAN_TARGET_POS_Y = 100.0f;
 	const float AJUST_ARROW_HEIGHT = 80.0f;
 }

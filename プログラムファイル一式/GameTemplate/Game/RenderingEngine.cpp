@@ -89,6 +89,12 @@ void RenderingEngine::CreateDeffered(RenderContext& rc)
 	rc.ClearRenderTargetViews(ARRAYSIZE(defferedTargets), defferedTargets);
 	m_renderTypes = enRenderNormal;
 	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
+
+	//ゲームタイムを用いてエフェクトの再生進行度の更新
+	EffectEngine::GetInstance()->Update(GameTime().GetFrameDeltaTime());
+	//エフェクトの描画
+	EffectEngine::GetInstance()->Draw();
+
 	rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 }
 

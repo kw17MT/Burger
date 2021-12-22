@@ -172,6 +172,16 @@ void Counter::JudgeAndDelete()
 		//できたハンバーガーの組成をJudge関数で調べる。
 		if (g_pad[m_counterNo]->IsTrigger(enButtonA) && playerToCounter < DISTANCE_TO_FIND_COUNTER) {
 			burger->SetPutOnCounterState(true);
+
+			Effect putEffect;
+			putEffect.Init(u"Assets/effect/put.efk");
+			Vector3 pos = m_position;
+			pos.y += 50.0f;
+			putEffect.SetPosition(pos);
+			putEffect.SetScale(Vector3::One * 20.0f);
+			putEffect.Play();
+			putEffect.Update();
+
 			//バーガーが合っている場合
 			if (Judge() == true) {
 				m_burgerCorrectFlag = true;
@@ -206,6 +216,26 @@ void Counter::JudgeAndDelete()
 					}
 					m_spriteJudge->SetPosition(m_spritePos);
 					m_spriteFlag = true;
+
+					Effect effect;
+					effect.Init(u"Assets/effect/sweat.efk");
+					Vector3 pos = m_player->GetPosition();
+					pos.y += 200.0f;
+					effect.SetPosition(pos);
+					Quaternion rot;
+					if (m_counterNo == 0)
+					{
+						rot.SetRotation({ 1.0f,0.0f,0.0f }, { -1.0f,0.0f,0.0f });
+						effect.SetRotation(rot);
+					}
+					else
+					{
+
+					}
+					
+					effect.SetScale({ 100.0f,100.0f,100.0f });
+					effect.Play();
+					effect.Update();
 
 					//音を鳴らす
 					CSoundSource* se = NewGO<CSoundSource>(0);

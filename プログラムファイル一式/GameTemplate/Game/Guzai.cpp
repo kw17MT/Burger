@@ -435,6 +435,22 @@ void Guzai::Cooking()
 			//押している時間をインクリメント
 			m_hold01++;
 			m_player00->StopMove(true);
+			m_player00->SetIsCooking(true);
+
+			if (m_hold01 % 10 == 1 && m_hold01 < 59)
+			{
+				Effect cut;
+				cut.Init(u"Assets/effect/cut2.efk");
+				Vector3 pos = m_player00->GetPosition();
+				pos.x -= 200.0f;
+				pos.z += 70.0f;
+				cut.SetPosition(pos);
+				cut.SetScale({ 100.0f,100.0f,100.0f });
+				cut.Play();
+				cut.Update();
+			}
+			
+
 			//音が出ていなかったら。
 			if (m_soundFlag01 == false) {
 				//調理の進み具合を示すメーター
@@ -480,6 +496,7 @@ void Guzai::Cooking()
 			m_hold01 = 0;
 			//動けるようにする。
 			m_player00->StopMove(false);
+			m_player00->SetIsCooking(false);
 			//音が出ていたら。
 			if (m_soundFlag01 == true) {
 				DeleteGO(m_meter);
@@ -493,6 +510,24 @@ void Guzai::Cooking()
 		if (g_pad[PLAYER_TWO_CONTROLLER]->IsPress(enButtonB) && m_setKitchenNum < GUZAIOKIBA_MIDDLE_NUM && m_player01->GetPlayerState() <= enNothing) {
 			m_hold02++;
 			m_player01->StopMove(true);
+			m_player01->SetIsCooking(true);
+
+			if (m_hold02 % 10 == 1 && m_hold02 < 59)
+			{
+				Effect cut;
+				cut.Init(u"Assets/effect/cut2.efk");
+				Vector3 pos = m_player01->GetPosition();
+				Quaternion rot;
+				rot.SetRotationDegY(180);
+				pos.x += 200.0f;
+				pos.z += 70.0f;
+				cut.SetPosition(pos);
+				cut.SetRotation(rot);
+				cut.SetScale({ 100.0f,100.0f,100.0f });
+				cut.Play();
+				cut.Update();
+			}
+
 			////音が出ていなかったら。
 			if (m_soundFlag02 == false) {
 				m_meter = NewGO<Meter>(0);
@@ -531,6 +566,7 @@ void Guzai::Cooking()
 		}
 		else {
 			m_player01->StopMove(false);
+			m_player01->SetIsCooking(false);
 			m_hold02 = 0;
 			//音が出ていたら。
 			if (m_soundFlag02 == true) {

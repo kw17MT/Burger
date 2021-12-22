@@ -134,21 +134,21 @@ void SkinModelRender::ChangeModel(const char* newModelFilePath)
 	}
 }
 
-//void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
-//{
-//	m_animationClip = animationClip;
-//
-//	m_animation.Init(m_skeleton, m_animationClip, animationNum);
-//}
+void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
+{
+	m_animationClip = animationClip;
 
-//void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
-//{
-//	m_animation.Play(animNo, interpolateTime);
-//}
+	m_animation.Init(m_skeleton, m_animationClip, animationNum);
+}
+
+void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
+{
+	m_animation.Play(animNo, interpolateTime);
+}
 
 void SkinModelRender::Update()
 {
-	//m_animation.Progress(GameTime().GetFrameDeltaTime());
+	m_animation.Progress(GameTime().GetFrameDeltaTime());
 	//モデルを更新
 	m_model.UpdateWorldMatrix(m_position, m_rot, m_scale);
 	//シャドウキャスターモデルを更新

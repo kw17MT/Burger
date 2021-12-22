@@ -157,9 +157,11 @@ void Kitchen::BornBurger()
 		}
 	}
 	else {
-		if (m_isPlayerCookingOnKitchen == false) {
+		if (m_isPlayerCookingOnKitchen == false
+			&& !m_player->GetIsPlayerCooking()) {
 			m_delay = DEFAULT_DELAY_NUMBER;
 			//m_player -> StopMove(false);
+			m_player->StopMove(false);
 		}
 
 		//‰¹‚ªo‚Ä‚¢‚ê‚ÎÁ‚·B

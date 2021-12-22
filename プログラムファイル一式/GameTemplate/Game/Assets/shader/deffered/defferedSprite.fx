@@ -353,11 +353,12 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//ライトビュースクリーン空間からUV空間に座標変換。
     float4 lvp = mul(LVP, worldPos);
     lvp.z = length(worldPos.xyz - ligPos) / 2000.0f;
-    float zInLVP = lvp.z /*/ lvp.w*/;
+    float zInLVP = lvp.z;
     
+    //float zInLVP = lvp.z / lvp.w;
+        
     float shadow = 0.0f;
-    
-    
+
     float2 shadowMapUV = lvp.xy / lvp.w;
     shadowMapUV *= float2(0.5f, -0.5f);
     shadowMapUV += 0.5f;
@@ -367,17 +368,26 @@ float4 PSMain( PSInput In ) : SV_Target0
 		&& shadowMapUV.y > 0.0f
 		&& shadowMapUV.y < 1.0f)
     {
+        //シャドウマップの深度とその2乗を取得
         float2 shadowValue = shadowMap.Sample(Sampler, shadowMapUV).xy;
 
         if (zInLVP > shadowValue.r + 0.001f && zInLVP <= 1.0f)
         {
             //光が届く確率を計算する
             float lit_factor = 1.0f - Chebyshev(shadowValue, zInLVP);
-            
+            //シャドウが落ちた後の色を計算
             float3 shadowColor = finalColor.xyz * 0.5f;
-            
+            //最終的な影の色合いを線形補完で調整
             finalColor.xyz = lerp(shadowColor, finalColor.xyz, lit_factor);
         }
+        
+       
+		////デプスシャドウ
+        //float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
+        //if (zInLVP > zInShadowMap + 0.000005f)
+        //{
+        //    finalColor.xyz *= 0.5f;
+        //}
     }
 
     float4 returnColor = finalColor + finalSpotLight;

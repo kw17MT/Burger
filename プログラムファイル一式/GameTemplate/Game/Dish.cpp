@@ -9,6 +9,7 @@
 #include "DishGene.h"
 #include "GuzaiManager.h"
 #include "DishManager.h"
+#include "GameDirector.h"
 
 namespace
 {
@@ -173,6 +174,11 @@ void Dish::Update()
 			se->SetVolume(SE_FIRST_POP_VOLUME);
 			se->Play(false);
 		}
+	}
+
+	if (GetGameDirector().GetGameScene() == enResult)
+	{
+		return;
 	}
 	
 	//©•ª‚Ìã‚Ì‹ïŞ‚ª‚½‚ê‚Ä‚¢‚é‚È‚ç‚Î
