@@ -335,7 +335,13 @@
     </ClCompile>
     <ClCompile Include="GuzaiGrab.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
-    <ClCompile Include="ToTitleSprite.cpp" />
+    <ClCompile Include="ToTitleSprite.cpp">
+      <Filter>UI,Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Emotion.cpp" />
+    <ClCompile Include="EmotionSmile.cpp" />
+    <ClCompile Include="EmotionCry.cpp" />
+    <ClCompile Include="EmotionUm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -698,7 +704,13 @@
     </ClInclude>
     <ClInclude Include="GuzaiGrab.h" />
     <ClInclude Include="RenderingEngine.h" />
-    <ClInclude Include="ToTitleSprite.h" />
+    <ClInclude Include="ToTitleSprite.h">
+      <Filter>UI,Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Emotion.h" />
+    <ClInclude Include="EmotionSmile.h" />
+    <ClInclude Include="EmotionCry.h" />
+    <ClInclude Include="EmotionUm.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

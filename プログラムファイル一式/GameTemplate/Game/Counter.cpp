@@ -208,13 +208,13 @@ void Counter::JudgeAndDelete()
 			else {
 				m_burgerMistakeFlag = true;
 				if (m_spriteFlag == false) {
-					m_spriteJudge = NewGO<SpriteRender>(0);
-					m_spriteJudge->Init("Assets/Image/BurgerJudgeMark/Miss.dds", SPRITE_WIDTH, SPRITE_HEIGHT);
-					if (m_counterNo == COUNTER_NUMBER_ONE) {
+					//m_spriteJudge = NewGO<SpriteRender>(0);
+					//m_spriteJudge->Init("Assets/Image/BurgerJudgeMark/Miss.dds", SPRITE_WIDTH, SPRITE_HEIGHT);
+					//if (m_counterNo == COUNTER_NUMBER_ONE) {
 						//カウンタ―ナンバーが1の時（右の時）、x座標を反転させる。
-						m_spritePos.x *= -1;
-					}
-					m_spriteJudge->SetPosition(m_spritePos);
+					//	m_spritePos.x *= -1.0f;
+					//}
+					//m_spriteJudge->SetPosition(m_spritePos);
 					m_spriteFlag = true;
 
 					Effect effect;
@@ -223,7 +223,7 @@ void Counter::JudgeAndDelete()
 					pos.y += 200.0f;
 					effect.SetPosition(pos);
 					Quaternion rot;
-					if (m_counterNo == 0)
+					if (m_counterNo == COUNTER_NUMBER_ZERO)
 					{
 						rot.SetRotation({ 1.0f,0.0f,0.0f }, { -1.0f,0.0f,0.0f });
 						effect.SetRotation(rot);

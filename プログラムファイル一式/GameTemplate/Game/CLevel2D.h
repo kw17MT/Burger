@@ -75,7 +75,9 @@ private:
 	bool m_TimeUpSet[2] = { false };					//メニューのタイムオーバー中か？
 	SpriteRender* sprite[enHamBurgerNum] = {nullptr};
 	int m_randNum[SHOW_HAMBURGER_NUMBER] = { 0 };
-
+	bool m_isFaultLeft = false;
+	bool m_isFaultIn = false;
+	bool m_isFaultRight = false;
 
 	//3つのスプライトの座標。
 	Vector3 m_spritePositions[SHOW_HAMBURGER_NUMBER];

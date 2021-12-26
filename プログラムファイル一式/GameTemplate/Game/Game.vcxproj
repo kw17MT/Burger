@@ -303,6 +303,10 @@
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
     <ClCompile Include="DishManager.cpp" />
+    <ClCompile Include="Emotion.cpp" />
+    <ClCompile Include="EmotionCry.cpp" />
+    <ClCompile Include="EmotionSmile.cpp" />
+    <ClCompile Include="EmotionUm.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="Floor.cpp" />
@@ -436,6 +440,10 @@
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
     <ClInclude Include="DishManager.h" />
+    <ClInclude Include="Emotion.h" />
+    <ClInclude Include="EmotionCry.h" />
+    <ClInclude Include="EmotionSmile.h" />
+    <ClInclude Include="EmotionUm.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="Floor.h" />

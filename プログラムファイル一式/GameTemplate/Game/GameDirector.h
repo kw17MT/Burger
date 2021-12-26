@@ -11,6 +11,13 @@ enum EnScene
 	enSceneNumber
 };
 
+enum EnResult
+{
+	enPlayer1Win,
+	enPlayer2Win,
+	enDraw
+};
+
 /// <summary>
 /// ゲームのシーンを知ってるクラス。
 /// </summary>
@@ -41,6 +48,11 @@ public:
 		m_enScene = enScene;
 	}
 
+	void SetResult(EnResult enResult)
+	{
+		m_result = enResult;
+	}
+
 	/**
 	 * @brief 今がどんなシーンが取得。
 	 * @return 今のシーン状況
@@ -48,6 +60,11 @@ public:
 	EnScene GetGameScene() const
 	{
 		return m_enScene;
+	}
+
+	EnResult GetResult() const
+	{
+		return m_result;
 	}
 
 	/**
@@ -69,6 +86,7 @@ public:
 	}
 private:
 	EnScene m_enScene = enNonScene;
+	EnResult m_result = enPlayer1Win;
 };
 
 //GameDirectorのインスタンスを取得。

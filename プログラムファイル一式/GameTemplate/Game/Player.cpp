@@ -6,6 +6,10 @@
 #include "GameDirector.h"
 #include "SkinModelRender.h"
 #include "Kitchen.h"
+#include "Emotion.h"
+#include "EmotionSmile.h"
+#include "EmotionCry.h"
+#include "EmotionUm.h"
 
 namespace
 {
@@ -29,12 +33,27 @@ namespace
 	const int EFFECT_TIMER_MAX = 60;
 
 	const float AJUST_PLAYER_SPEED = -10.0f;
+	const Vector3 EMOTION_RIGHT = { -500.0f, 150.0f, 0.0f };		//右表示用の位置
+	const Vector3 EMOTION_LEFT = { 500.0f, 150.0f, 0.0f };
 }
 
 Player::~Player()
 {
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_effect);
+	if (m_smile != nullptr)
+	{
+		DeleteGO(m_smile);
+	}
+	if (m_cry != nullptr)
+	{
+		DeleteGO(m_cry);
+	}
+	if (m_um != nullptr)
+	{
+		DeleteGO(m_um);
+	}
+	DeleteGO(m_emotion);
 }
 
 bool Player::Start()
@@ -219,6 +238,50 @@ void Player::Update()
 {
 	//カウントダウン中でも、プレイヤーの初期位置は固定しておきたいため。
 	m_skinModelRender->SetPosition(m_position);
+	if (GetGameDirector().GetGameScene() == enResult
+		&& m_emotion == nullptr)
+	{
+		m_emotion = NewGO<Emotion>(0);
+		if (m_playerNo == 0)
+		{
+			m_emotion->SetPosition(EMOTION_LEFT);
+			if (GetGameDirector().GetResult() == enPlayer1Win)
+			{
+				m_smile = NewGO<EmotionSmile>(0);
+				m_smile->SetPosition(EMOTION_LEFT);
+			}
+			else if(GetGameDirector().GetResult() == enPlayer2Win)
+			{
+				m_cry = NewGO<EmotionCry>(0);
+				m_cry->SetPosition(EMOTION_LEFT);
+			}
+			else
+			{
+				m_um = NewGO<EmotionUm>(0);
+				m_um->SetPosition(EMOTION_LEFT);
+			}
+		}
+		else
+		{
+			m_emotion->SetPosition(EMOTION_RIGHT);
+			if (GetGameDirector().GetResult() == enPlayer2Win)
+			{
+				m_smile = NewGO<EmotionSmile>(0);
+				m_smile->SetPosition(EMOTION_RIGHT);
+			}
+			else if(GetGameDirector().GetResult() == enPlayer1Win)
+			{
+				m_cry = NewGO<EmotionCry>(0);
+				m_cry->SetPosition(EMOTION_RIGHT);
+			}
+			else
+			{
+				m_um = NewGO<EmotionUm>(0);
+				m_um->SetPosition(EMOTION_RIGHT);
+			}
+		}
+	}
+
 
 	//ゲームプレイ中じゃなかったら。
 	if (!GetGameDirector().GetIsGamePlay())

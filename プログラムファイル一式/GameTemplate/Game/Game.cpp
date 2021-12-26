@@ -292,6 +292,7 @@ void Game::DoWhenTimeUp()
 			m_result[RESULT_DRAW] = NewGO<Result>(1, "result");
 			m_result[RESULT_DRAW]->SetSprite(RESULT_DRAW);									//0 : 引き分け
 			m_result[RESULT_DRAW]->SetSpritePos(RESULT_DRAW);								//中央くらいの位置
+			GetGameDirector().SetResult(enDraw);
 		}
 		//勝敗が決まっているとき(enumの返す整数値が異なるとき),2枚を表示
 		else if (m_score->ResultP1 != m_score->ResultP2) {
@@ -300,6 +301,7 @@ void Game::DoWhenTimeUp()
 				m_result[RESULT_FOR_PLAYER_ONE] = NewGO<Result>(1, "result");
 				m_result[RESULT_FOR_PLAYER_ONE]->SetSprite(RESULT_WIN);						//1 : 勝利
 				m_result[RESULT_FOR_PLAYER_ONE]->SetSpritePos(RESULT_FOR_PLAYER_ONE);		//1 : 右側
+				GetGameDirector().SetResult(enPlayer1Win);
 			}
 			if (m_score->ResultP1 == RESULT_LOSE) {
 				m_result[RESULT_FOR_PLAYER_ONE] = NewGO<Result>(1, "result");
@@ -312,6 +314,7 @@ void Game::DoWhenTimeUp()
 				m_result[RESULT_FOR_PLAYER_TWO] = NewGO<Result>(1, "result");
 				m_result[RESULT_FOR_PLAYER_TWO]->SetSprite(RESULT_WIN);						//1 : 勝利
 				m_result[RESULT_FOR_PLAYER_TWO]->SetSpritePos(RESULT_FOR_PLAYER_TWO);		//2 :左側
+				GetGameDirector().SetResult(enPlayer2Win);
 			}
 			if (m_score->ResultP2 == RESULT_LOSE) {
 				m_result[RESULT_FOR_PLAYER_TWO] = NewGO<Result>(1, "result");

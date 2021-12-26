@@ -209,15 +209,28 @@ void CLevel2D::Render(RenderContext& rc)
 bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 {
 	if (counterNo == COUNTER_NUMBER_ONE) {
+		m_isFaultLeft = false;
+		m_isFaultIn = false;
 		//メニューの左と中央を対象に比較開始
 		for (int i = SHOW_BURGER_LEFT; i >= counterNo; i--)
 		{
 			//ハンバーガーのデータ持ってくるお。
 			HamBurger hamBurger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			//長さ違ったら。
-			if (size != hamBurger.size()) 
+			if (size != hamBurger.size())
+			{
+				if (i == SHOW_BURGER_LEFT)
+				{
+					m_isFaultLeft = true;
+				}
+				else if (i == SHOW_BURGER_MIDDLE)
+				{
+					m_isFaultIn = true;
+				}
+
 				//以下の処理しなーい。
-			continue;
+				continue;
+			}
 			
 			//同じだお。
 			bool isSame = true;
@@ -229,6 +242,14 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 				{
 					//違うお。
 					isSame = false;
+					if (i == SHOW_BURGER_LEFT)
+					{
+						m_isFaultLeft = true;
+					}
+					else if (i == SHOW_BURGER_MIDDLE)
+					{
+						m_isFaultIn = true;
+					}
 					break;
 				}
 			}
@@ -244,11 +265,23 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 				Roulette(i);
 				return true;
 			}
-			
+		}
+		if (m_isFaultLeft && m_isFaultIn)
+		{
+		Roulette(SHOW_BURGER_LEFT);
+		//1Pのミス数を1足す
+		m_missCounter->AddPl1MissCount();
+		//バツ印の画像を出す
+		m_missCounter->ChangeMarkState(true);
+		//時間切れのフラグを立てる
+		m_TimeUpSet[MENU_TIMEUP_LEFT] = true;
+		return false;
 		}
 	}
 
 	if (counterNo == COUNTER_NUMBER_TWO) {
+		m_isFaultRight = false;
+		m_isFaultIn = false;
 		//メニューの右と中央を対象に比較開始
 		for (int i = 0; i < counterNo; i++)
 		{
@@ -256,8 +289,18 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 			HamBurger hamBurger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			//長さ違ったら。
 			if (size != hamBurger.size())
+			{
+				if (i == SHOW_BURGER_RIGHT)
+				{
+					m_isFaultRight = true;
+				}
+				else if (i == SHOW_BURGER_MIDDLE)
+				{
+					m_isFaultIn = true;
+				}
 				//以下の処理しなーい。
 				continue;
+			}
 
 			//同じだお。
 			bool isSame = true;
@@ -269,6 +312,14 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 				{
 					//違うお。
 					isSame = false;
+					if (i == SHOW_BURGER_RIGHT)
+					{
+						m_isFaultRight = true;
+					}
+					else if (i == SHOW_BURGER_MIDDLE)
+					{
+						m_isFaultIn = true;
+					}
 					break;
 				}
 			}
@@ -283,6 +334,15 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 
 				return true;
 			}
+		}
+		if (m_isFaultRight && m_isFaultIn)
+		{
+			Roulette(SHOW_BURGER_RIGHT);
+			m_missCounter->AddPl2MissCount();
+			m_missCounter->ChangeMarkState(true);
+
+			m_TimeUpSet[MENU_TIMEUP_RIGHT] = true;
+			return false;
 		}
 	}
 	//同じじゃなかったら、false以外ありえない。

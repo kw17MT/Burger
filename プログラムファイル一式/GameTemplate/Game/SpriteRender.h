@@ -72,6 +72,10 @@ public:
 	*/
 	void SetColor(const float& r,const float& g,const float& b,const float& a) { m_sprite.ColorUpdate(r,g,b,a); }
 
+	Vector3 GetPosition() { return m_pos; }
+
+	Vector3 GetScale() { return m_scale; }
+
 	/**
 	 * @brief 画像を描く
 	 * @param rc レンダーターゲット

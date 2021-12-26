@@ -6,6 +6,10 @@ class PopUp2D;
 class SkinModelRender;
 class Kitchen;
 class Effect;
+class Emotion;
+class EmotionSmile;
+class EmotionCry;
+class EmotionUm;
 
 class Player : public IGameObject
 {
@@ -182,4 +186,8 @@ private:
 	Kitchen* m_kitchen = nullptr;						//キッチンの情報取得用
 	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデル
 	Effect* m_effect = nullptr;							//エフェクト
+	Emotion* m_emotion = nullptr;
+	EmotionSmile* m_smile = nullptr;
+	EmotionCry* m_cry = nullptr;
+	EmotionUm* m_um = nullptr;
 };

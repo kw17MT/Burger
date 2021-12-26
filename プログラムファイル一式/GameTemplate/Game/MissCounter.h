@@ -3,6 +3,7 @@ class SpriteRender;
 class Level2D;
 class Result;
 #include "Level2D.h"
+class ToTitleSprite;
 
 class MissCounter : public IGameObject
 {
@@ -14,6 +15,11 @@ private:
 	bool m_pl2Win = false;								//プレイヤー2は勝ったか
 	bool m_shouldChangeFilePath = false;				//どれかの画像を変えるべきか
 	bool m_isGameSet = false;							//ゲームが終了したか
+
+	float m_missSpriteCounter1 = 0.0f;
+	float m_missSpriteCounter2 = 0.0f;
+
+	bool m_finishToTitleSprite = false;
 public:
 	~MissCounter();
 
@@ -54,9 +60,18 @@ public:
 	*/
 	void PopResultSprite();
 
+	/**
+	 * @brief ミスの画像を出現後、所定の位置に移動させる
+	 * @param popPos 一番初めに出現させる位置
+	 * @param targetPos 最終的な位置
+	*/
+	void PopMissSprite(int no);
+
 private:
 	Level2D m_level2D;											//レベル２Dの取得用
 	std::array<Result*, 2> m_result = {nullptr};				//リザルト表示する画像取得用
 	std::array<SpriteRender*, 6> m_spriteRender = { nullptr };	//ミスカウンター用の画像
+	std::array<SpriteRender*, 6> m_missSprite = { nullptr };
+	ToTitleSprite* m_toTitle = nullptr;
 };
 
