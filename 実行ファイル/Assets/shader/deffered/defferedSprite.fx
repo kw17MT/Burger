@@ -159,9 +159,33 @@ float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
     return max(F * D * G / m, 0.0);
 }
 
-
 /****************ここまでPBR関数*********************************************************************/
 
+// チェビシェフの不等式を利用して、影になる可能性を計算する。
+float Chebyshev(float2 moments, float depth)
+{
+    if (depth <= moments.x)
+    {
+        return 0.0;
+    }
+    // 遮蔽されているなら、チェビシェフの不等式を利用して光が当たる確率を求める
+    float depth_sq = moments.x * moments.x;
+    // このグループの分散具合を求める
+    // 分散が大きいほど、varianceの数値は大きくなる
+    float variance = moments.y - depth_sq;
+    // このピクセルのライトから見た深度値とシャドウマップの平均の深度値の差を求める
+    float md = depth - moments.x;
+    // 光が届く確率を求める
+    float lit_factor = variance / (variance + md * md);
+    float lig_factor_min = 0.3f;
+    // 光が届く確率の下限以下は影になるようにする。
+    lit_factor = saturate((lit_factor - lig_factor_min) / (1.0f - lig_factor_min));
+    // 光が届く確率から影になる確率を求める。
+    return 1.0f - lit_factor;
+}
+
+static const float3 ligPos = float3(0.0f, 1000.0f, -500.0f);
+static const float INFINITY = 40.0f;
 
 float4 PSMain( PSInput In ) : SV_Target0
 {   
@@ -252,11 +276,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     float3 lambertDiffuse = (directionalLight.color * NdotL) / PI;
 	//最終的に適用する拡散反射光を計算
     float3 diffuse = albedoColor.xyz * diffuseFromFresnel * lambertDiffuse;
-    
-    //float4 a = 1.0f;
-    //a.xyz = diffuseFromFresnel;
-    //return a;
-    
+   
     //反射の具合を取得
     float specPower = normalTexture.Sample(Sampler, In.uv).w;
     //反射光の取得
@@ -327,36 +347,47 @@ float4 PSMain( PSInput In ) : SV_Target0
  //   finalColor.xyz *= lig;
    // finalColor.xyz += ambientLight;
     //return finalColor;
+
     
-    
-    
-    
-    
-    
-    //ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
+    //ここからシャドウの作成///////////////////////////////////////////////////////////////////////////
 	//ライトビュースクリーン空間からUV空間に座標変換。
-    
     float4 lvp = mul(LVP, worldPos);
+    lvp.z = length(worldPos.xyz - ligPos) / 2000.0f;
+    float zInLVP = lvp.z;
     
+    //float zInLVP = lvp.z / lvp.w;
+        
+    float shadow = 0.0f;
+
     float2 shadowMapUV = lvp.xy / lvp.w;
     shadowMapUV *= float2(0.5f, -0.5f);
     shadowMapUV += 0.5f;
-   
 	//ライトビュースクリーン空間でのZ値を計算する
-    float zInLVP = lvp.z / lvp.w;
-
     if (shadowMapUV.x > 0.0f
 		&& shadowMapUV.x < 1.0f
 		&& shadowMapUV.y > 0.0f
 		&& shadowMapUV.y < 1.0f)
     {
-		//シャドウマップに描き込まれているZ値と比較する
-        float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
-		//シャドウアクネ解決のため実数値で補正、調整
-        if (zInLVP > zInShadowMap + 0.00007f)
+        //シャドウマップの深度とその2乗を取得
+        float2 shadowValue = shadowMap.Sample(Sampler, shadowMapUV).xy;
+
+        if (zInLVP > shadowValue.r + 0.001f && zInLVP <= 1.0f)
         {
-            finalColor.xyz *= 0.5f;
+            //光が届く確率を計算する
+            float lit_factor = 1.0f - Chebyshev(shadowValue, zInLVP);
+            //シャドウが落ちた後の色を計算
+            float3 shadowColor = finalColor.xyz * 0.5f;
+            //最終的な影の色合いを線形補完で調整
+            finalColor.xyz = lerp(shadowColor, finalColor.xyz, lit_factor);
         }
+        
+       
+		////デプスシャドウ
+        //float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
+        //if (zInLVP > zInShadowMap + 0.000005f)
+        //{
+        //    finalColor.xyz *= 0.5f;
+        //}
     }
 
     float4 returnColor = finalColor + finalSpotLight;

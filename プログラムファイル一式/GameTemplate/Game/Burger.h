@@ -96,6 +96,5 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;			//モデルのレンダー
 	Player* m_player = nullptr;								//対応するプレイヤー
 	TrashCan* m_trashCan = nullptr;							//対応するゴミ箱
-	Effect* m_oilEffect = nullptr;
-	Effect* m_yugeEffect = nullptr;
+	Effect* m_oilEffect = nullptr;							//肉汁エフェクトインスタンス
 };

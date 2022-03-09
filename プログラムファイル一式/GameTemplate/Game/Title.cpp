@@ -52,5 +52,4 @@ void Title::Update()
 		DeleteGO(m_fade);
 		DeleteGO(this);
 	}
-
 }

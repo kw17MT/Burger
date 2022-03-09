@@ -10,25 +10,29 @@
 #include <string>
 
 namespace {
-	const Vector3 EFFECT_SCALE = { 15.0f,15.0f,15.0f };
-	const int KITCHEN_NAME_SIZE = 10;
-	const int PLAYER_NAME_SIZE = 9;
-	const int TRASHCAN_NAME_SIZE = 11;
-	const int COUNTER_NAME_SIZE = 10;
-	const int NONE = 9;
-	const int DEFAULT_DECREMENT_TIME = 20;
+	const Vector3 EFFECT_SCALE = { 15.0f,15.0f,15.0f };				//エフェクトの大きさ
+	const Vector3 YUGE_EFFECT_SCALE = { 200.0f,200.0f,200.0f };		//湯気エフェクトの大きさ
+	const Vector3 AXIS_Z = { 0.0f,0.0f,1.0f };						//Z軸
+	const Vector3 AXIS_Y = { 0.0f,1.0f,0.0f };						//Y軸
+	const int KITCHEN_NAME_SIZE = 10;								//キッチンの名前の長さ
+	const int PLAYER_NAME_SIZE = 9;									//プレイヤーの名前の長さ
+	const int TRASHCAN_NAME_SIZE = 11;								//ゴミ箱の名前の長さ
+	const int COUNTER_NAME_SIZE = 10;								//カウンターの名前の長さ
+	const int NONE = 9;												//具材ヌル番号
+	const int PLAY_EFFECT_DELAY = 3;								//エフェクトを再生する遅延時間
+	const int DEFAULT_DECREMENT_TIME = 20;							
 	const float SPACE_BETWEEN_KITCHEN_TO_BURGER = 100.0f;
 	const float ADJUST_HEIGHT = 50.0f;
 	const float ADJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_BURGER = 150.0f;
 	const float SE_VOLUME = 2.0f;
+
 }
 
 Burger::~Burger()
 {
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_oilEffect);
-	DeleteGO(m_yugeEffect);
 }
 
 bool Burger::Start()
@@ -89,14 +93,6 @@ bool Burger::Start()
 	m_oilEffect->Init(u"Assets/effect/meatOil2.efk");
 	m_oilEffect->SetScale({ 50.0f,50.0f,50.0f });
 	m_oilEffect->Update();
-
-	/*m_yugeEffect = NewGO<Effect>(10);
-	m_yugeEffect->Init(u"Assets/effect/yuge2.efk");
-	m_yugeEffect->SetScale({ 10.0f,20.0f,10.0f });
-	m_yugeEffect->Play();
-	m_yugeEffect->Update();*/
-
-	
 
 	//フォワードでブルーム適用するか
 	m_skinModelRender->SetApplyBlur(true);
@@ -198,51 +194,28 @@ void Burger::Update()
 	m_dropOilDelay += GameTime().GetFrameDeltaTime();
 	int timer = (int)m_dropOilDelay;
 
-	if (timer % 2 == 0)
-	{
-		/*Quaternion qRot;
-		qRot.SetRotation({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f });
-		Vector3 effectPos = m_position;
-		effectPos.y += 100.0f;
-		m_yugeEffect->SetPosition(effectPos);*/
-		//m_yugeEffect->SetRotation(qRot);
-		//m_yugeEffect->Play();
-
-		/*Effect yuge;
-		yuge.Init(u"Assets/effect/yuge4.efk");
-		yuge.SetScale({ 20.0f,20.0f,20.0f });
-		yuge.SetPosition(m_position);
-		yuge.Play();
-		yuge.Update();
-		Vector3 pos = m_position;
-		pos.y += 100.0f;*/
-		//m_yugeEffect->SetPosition(m_position);
-		///m_yugeEffect->Update();
-		
-	}
-	if (timer == 3)
+	if (timer == PLAY_EFFECT_DELAY)
 	{
 		Quaternion qRot;
-		qRot.SetRotation({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f });
+		qRot.SetRotation(AXIS_Z, AXIS_Y);
 		Vector3 effectPos = m_position;
-		effectPos.y -= 50.0f;
+		effectPos.y += ADJUST_HEIGHT;
 		m_oilEffect->SetPosition(effectPos);
 		m_oilEffect->SetRotation(qRot);
 		m_oilEffect->Play();
-
+		m_oilEffect->Update();
 		m_dropOilDelay = 0.0f;
 	}
 
+	//湯気エフェクト生成
 	Effect yuge;
 	yuge.Init(u"Assets/effect/yuge.efk");
-	yuge.SetScale({ 200.0f,200.0f,200.0f });
+	yuge.SetScale(YUGE_EFFECT_SCALE);
 	Vector3 pos = m_position;
-	pos.y += 100.0f;
+	pos.y += ADJUST_HEIGHT * 2;
 	yuge.SetPosition(pos);
 	yuge.Play();
 	yuge.Update();
-	
-	m_oilEffect->Update();
 
 	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_burgerScale);

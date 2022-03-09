@@ -127,5 +127,6 @@ void Score::Update()
 		//score側のタイムアップフラグをtrueにする(判定を1回だけにする)
 		SetIsTimeUp();
 	}
+
 	AddScoreNChangeColor();
 }

@@ -4,11 +4,8 @@
 void FXAA::Init(RenderTarget& mainRenderTarget)
 {
 	SpriteInitData fxaaSpriteData;
-
-	m_fxaaTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
-
-	fxaaSpriteData.m_width = 1280;
-	fxaaSpriteData.m_height = 720;
+	fxaaSpriteData.m_width = mainRenderTarget.GetWidth();
+	fxaaSpriteData.m_height = mainRenderTarget.GetHeight();
 	fxaaSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
 	fxaaSpriteData.m_fxFilePath = "Assets/shader/fxaa.fx";
 	fxaaSpriteData.m_vsEntryPointFunc = "VSMain";
@@ -34,6 +31,5 @@ void FXAA::Render(RenderContext& rc, RenderTarget& TargetToApply)
 	//描画。
 	m_finalSprite.Draw(rc);
 	// レンダリングターゲットへの書き込み終了待ち
-	//メインレンダ―ターゲットをRENDERTARGETからPRESENTへ。
 	rc.WaitUntilFinishDrawingToRenderTarget(TargetToApply);
 }

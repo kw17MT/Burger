@@ -4,6 +4,7 @@
 
 static const float PI = 3.1415926f;
 
+
 //モデル用の定数バッファ
 cbuffer ModelCb : register(b0){
 	float4x4 mWorld;
@@ -47,8 +48,6 @@ struct SPSOut
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
 Texture2D<float4> g_normalMap : register(t1);
 Texture2D<float4> g_specMap : register(t2);
-
-Texture2D<float4> g_shadowMap : register(t10);
 
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 sampler g_sampler : register(s0);	//サンプラステート。
@@ -114,7 +113,7 @@ SPSIn VSSkinMain( SVSIn vsIn )
 
 SPSOut PSMain(SPSIn psIn)
 {
-    SPSOut psOut;
+    SPSOut psOut = (SPSOut)0;
 
     // アルベドカラーを出力
     psOut.albedo = g_albedo.Sample(g_sampler, psIn.uv);

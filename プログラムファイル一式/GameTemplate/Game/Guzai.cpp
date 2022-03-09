@@ -21,6 +21,7 @@
 namespace
 {
 	const Vector3 EGG_SCALE = { 0.7f,1.0f,0.7f };
+	const Vector3 CUT_EFFECT_SCALE = { 100.0f,100.0f,100.0f };
 	const int PLAYER_NONE = -1;
 	const int PLAYER_ONE = 0;
 	const int PLAYER_TWO = 1;
@@ -514,6 +515,7 @@ void Guzai::Cooking()
 
 			if (m_hold02 % 10 == 1 && m_hold02 < 59)
 			{
+				//カットエフェクトの生成
 				Effect cut;
 				cut.Init(u"Assets/effect/cut2.efk");
 				Vector3 pos = m_player01->GetPosition();
@@ -523,7 +525,7 @@ void Guzai::Cooking()
 				pos.z += 70.0f;
 				cut.SetPosition(pos);
 				cut.SetRotation(rot);
-				cut.SetScale({ 100.0f,100.0f,100.0f });
+				cut.SetScale(CUT_EFFECT_SCALE);
 				cut.Play();
 				cut.Update();
 			}

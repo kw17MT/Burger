@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "ForwardBloom.h"
 
+namespace
+{
+	const int BLUR_POWER = 5;
+}
+
 void ForwardBloom::Init(RenderTarget& specialBloomTarget)
 {
 	m_luminanceTarget.Create(
@@ -60,10 +65,10 @@ void ForwardBloom::Render(RenderContext& rc, RenderTarget& TargetToApply)
 	rc.WaitUntilFinishDrawingToRenderTarget(m_luminanceTarget);
 
 	//輝度の高い部分を4回連続でブラーをかける
-	m_gaussianBlur[0].ExecuteOnGPU(rc, 5);
-	m_gaussianBlur[1].ExecuteOnGPU(rc, 5);
-	m_gaussianBlur[2].ExecuteOnGPU(rc, 5);
-	m_gaussianBlur[3].ExecuteOnGPU(rc, 5);
+	m_gaussianBlur[0].ExecuteOnGPU(rc, BLUR_POWER);
+	m_gaussianBlur[1].ExecuteOnGPU(rc, BLUR_POWER);
+	m_gaussianBlur[2].ExecuteOnGPU(rc, BLUR_POWER);
+	m_gaussianBlur[3].ExecuteOnGPU(rc, BLUR_POWER);
 
 	//もとの画像は消さずに、ブルームを適用する。
 	rc.WaitUntilToPossibleSetRenderTarget(TargetToApply);
